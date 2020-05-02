@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ish on Nody´s blog</title>
+    <link>https://blog.nody.cc/tags/ish/</link>
+    <description>Nody´s blog (ish)</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 08 May 2019 00:00:00 +0000</lastBuildDate>
+    
+    <atom:link href="https://blog.nody.cc/tags/ish/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Docker, CI/CD &amp; DevOps Security</title>
+      <link>https://blog.nody.cc/publication/2019-ish/</link>
+      <pubDate>Wed, 08 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.nody.cc/publication/2019-ish/</guid>
+      <description>&lt;p&gt;Christoph Klaaßen &amp;amp; Jan Harrie, ISH Summit day, Munich, Germany&lt;/p&gt;
+&lt;h2 id=&#34;content&#34;&gt;Content&lt;/h2&gt;
+&lt;p&gt;Discuss live with participants out of the industry about security aspects of modern and agile software development, -deployment and -operation.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;WHAT TO EXPECT&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Two lectures&lt;/li&gt;
+&lt;li&gt;A case study out of the industry&lt;/li&gt;
+&lt;li&gt;Four round-table discussions&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The titles and speakers of the lectures will be announced in a contemporary way.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Agile Software Development &amp;amp;Security&lt;/li&gt;
+&lt;li&gt;Technical security aspects of Docker, Kubernetes and OpenShift&lt;/li&gt;
+&lt;li&gt;Public Cloud Service &amp;amp; Security&lt;/li&gt;
+&lt;li&gt;Governance Challenges in DevOps Environments&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;em&gt;TARGET AUDIENCE&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;The event is suitable for those interested in the field of security in agile software development. Through the case studies and the active discussion rounds you will get to know current problems as well as methods and possibilities, which can be implemented in your everyday life for the safe and modern development of software.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Technican, Project Manager &amp;amp; IT Manager&lt;/li&gt;
+&lt;li&gt;IT security officers&lt;/li&gt;
+&lt;li&gt;Security Architects &amp;amp; Developers&lt;/li&gt;
+&lt;li&gt;Infrastructure Engineers &amp;amp; Architects&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;em&gt;REASONS TO PARTICIPATE&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Software development and operation is currently subject to rapid evolution, which breaks with familiar concepts and requires the development of new concepts for the integration of security processes into the development cycle. Learn directly what (positive and negative) developments experts in safety testing have observed in the recent past and discuss together the advantages and disadvantages of different approaches.&lt;/p&gt;
+&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.ish-muc.com/summit#Docker&#34;&gt;ISH Page&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

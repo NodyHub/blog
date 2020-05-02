@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Docker on Nody´s blog</title>
+    <link>https://blog.nody.cc/tags/docker/</link>
+    <description>Nody´s blog (Docker)</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 20 Mar 2020 00:00:00 +0000</lastBuildDate>
+    
+    <atom:link href="https://blog.nody.cc/tags/docker/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Training: Docker, Kubernetes &amp; Security in Enterprise Environments</title>
+      <link>https://blog.nody.cc/publication/2020-troopers/</link>
+      <pubDate>Fri, 20 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.nody.cc/publication/2020-troopers/</guid>
+      <description>&lt;p&gt;Kevin Kelpen &amp;amp; Jan Harrie, TROOPERS20, Heidelberg, Germany&lt;/p&gt;
+&lt;h2 id=&#34;abstract&#34;&gt;Abstract&lt;/h2&gt;
+&lt;p&gt;Container, Microservices, Kubernetes - all of those terms heavily dominate modern application development teams and processes. This training will explain the key technologies behind those terms and focus on the following main questions:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;How strong and reliable are the isolation capabilities of Docker/Linux/OS containers?&lt;/li&gt;
+&lt;li&gt;How do containers affect typical application and network architectures?&lt;/li&gt;
+&lt;li&gt;How does Kubernetes affect application deployments and workflows?&lt;/li&gt;
+&lt;li&gt;How is “security” integrated into those paradigms?&lt;/li&gt;
+&lt;li&gt;What additional attack surface and security challenges are introduced by the changed development landscape and additional tools?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;All agenda topics will be supported by practical exercises and/or demos. At the end of the training, each attendee will have knowledge about the described buzzwords and tools and understand how they impact application architectures, development, and security posture. Additionally, a fully functional Kubernetes cluster is built, as well as relevant security measures implemented and discussed.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Who should attend this training and why?&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;IT Security Professionals who want to:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;understand the technology behind the recent and common buzzwords listed above,&lt;/li&gt;
+&lt;li&gt;be able to evaluate the isolation capabilities of container solutions,&lt;/li&gt;
+&lt;li&gt;get ideas on how to integrate security into typical DevOps environments and continuous workflows.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Software Architects and Developers who want to:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;learn about potential security vulnerabilities in common practices and tools,&lt;/li&gt;
+&lt;li&gt;understand the concerns of the security people,&lt;/li&gt;
+&lt;li&gt;improve their development chain by adding automated security checks.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Due to the large amount of tools and technologies, this training will not be able to cover security aspects of every single technology in detail. However, we are happy to receive specific questions before the training to potentially prepare additional material and you will get an overview how to approach unknown/new technologies from a security perspective.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Requirements&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;The attendees should have:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;intermediate knowledge of the Linux bash and a command line-based text editor (e.g. nano or vim)&lt;/li&gt;
+&lt;li&gt;a system with WLAN and an SSH client (i.e. PuTTY) which is able to connect via SSH to systems in the Internet.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For the exercises, we provide the needed infrastructure in a cloud environment which the attendees can connect to via SSH.&lt;/p&gt;
+&lt;h2 id=&#34;media&#34;&gt;Media&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://insinuator.net/2019/12/troopers20-training-teaser-swim-with-the-whales-docker-devops-security-in-enterprise-environments/&#34;&gt;Blogpost&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
+    
+    <item>
+      <title>Docker, CI/CD &amp; DevOps Security</title>
+      <link>https://blog.nody.cc/publication/2019-ish/</link>
+      <pubDate>Wed, 08 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.nody.cc/publication/2019-ish/</guid>
+      <description>&lt;p&gt;Christoph Klaaßen &amp;amp; Jan Harrie, ISH Summit day, Munich, Germany&lt;/p&gt;
+&lt;h2 id=&#34;content&#34;&gt;Content&lt;/h2&gt;
+&lt;p&gt;Discuss live with participants out of the industry about security aspects of modern and agile software development, -deployment and -operation.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;WHAT TO EXPECT&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Two lectures&lt;/li&gt;
+&lt;li&gt;A case study out of the industry&lt;/li&gt;
+&lt;li&gt;Four round-table discussions&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The titles and speakers of the lectures will be announced in a contemporary way.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Agile Software Development &amp;amp;Security&lt;/li&gt;
+&lt;li&gt;Technical security aspects of Docker, Kubernetes and OpenShift&lt;/li&gt;
+&lt;li&gt;Public Cloud Service &amp;amp; Security&lt;/li&gt;
+&lt;li&gt;Governance Challenges in DevOps Environments&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;em&gt;TARGET AUDIENCE&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;The event is suitable for those interested in the field of security in agile software development. Through the case studies and the active discussion rounds you will get to know current problems as well as methods and possibilities, which can be implemented in your everyday life for the safe and modern development of software.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Technican, Project Manager &amp;amp; IT Manager&lt;/li&gt;
+&lt;li&gt;IT security officers&lt;/li&gt;
+&lt;li&gt;Security Architects &amp;amp; Developers&lt;/li&gt;
+&lt;li&gt;Infrastructure Engineers &amp;amp; Architects&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;em&gt;REASONS TO PARTICIPATE&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Software development and operation is currently subject to rapid evolution, which breaks with familiar concepts and requires the development of new concepts for the integration of security processes into the development cycle. Learn directly what (positive and negative) developments experts in safety testing have observed in the recent past and discuss together the advantages and disadvantages of different approaches.&lt;/p&gt;
+&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.ish-muc.com/summit#Docker&#34;&gt;ISH Page&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
+    
+    <item>
+      <title>TROOPERS19</title>
+      <link>https://blog.nody.cc/publication/2019-troopers/</link>
+      <pubDate>Wed, 20 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.nody.cc/publication/2019-troopers/</guid>
+      <description>&lt;p&gt;Heidelberg, Germany&lt;/p&gt;
+&lt;h2 id=&#34;threat-modelling-and-beyond-for-cisco-aci&#34;&gt;Threat Modelling and Beyond for Cisco ACI&lt;/h2&gt;
+&lt;p&gt;Frank Block &amp;amp; Jan Harrie&lt;/p&gt;
+&lt;h3 id=&#34;abstract&#34;&gt;Abstract&lt;/h3&gt;
+&lt;p&gt;Cisco Application Centric Infrastructure (ACI) is one of the major solutions in the era of software-defined networking (SDN). Overall, it consists of a) leaf &amp;amp; spine switches (running NX-OS) to connect different endpoints and enforce filtering rules and b) a cluster of Application Policy Infrastructure Controllers to manage the SDN. Such a modern networking approach comes, of course, with its own threats and risks.&lt;/p&gt;
+&lt;p&gt;To better understand the threat landscape in the case of the Cisco ACI solution, we performed a first deeper analysis of the system. In this lightning talk we will present the current research results on a theoretical and technical level, existing challenges, and a forecast of the next steps.&lt;/p&gt;
+&lt;h3 id=&#34;media&#34;&gt;Media&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;../TROOPERS19_DM_Threat_Modelling_Cisco_ACI.pdf&#34;&gt;Slides&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.youtube.com/watch?v=2KX3CNDz9PE&#34;&gt;Recording&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;docker-kubernetes--security-in-enterprise-environments&#34;&gt;Docker, Kubernetes &amp;amp; Security in Enterprise Environments&lt;/h2&gt;
+&lt;p&gt;Simon Janz &amp;amp; Jan Harrie&lt;/p&gt;
+&lt;h3 id=&#34;abstract-1&#34;&gt;Abstract&lt;/h3&gt;
+&lt;p&gt;Container, Microservices, Kubernetes - all of those terms heavily dominate modern application development teams and processes. This training will explain the key technologies behind those terms and focus on the following main questions:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;How strong and reliable are the isolation capabilities of Docker/Linux/OS containers?&lt;/li&gt;
+&lt;li&gt;How do containers affect typical application and network architectures?&lt;/li&gt;
+&lt;li&gt;How does Kubernetes affect application deployments and workflows?&lt;/li&gt;
+&lt;li&gt;How is “security” integrated into those paradigms?&lt;/li&gt;
+&lt;li&gt;What additional attack surface and security challenges are introduced by the changed development landscape and additional tools?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;All agenda topics will be supported by practical exercises and/or demos. At the end of the training, each attendee will have knowledge about the described buzzwords and tools and understand how they impact application architectures, development, and security posture. Additionally, a fully functional Kubernetes cluster is built, as well as relevant security measures implemented and discussed.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Who should attend this training and why?&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;IT Security Professionals who want to:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;understand the technology behind the recent and common buzzwords listed above,&lt;/li&gt;
+&lt;li&gt;be able to evaluate the isolation capabilities of container solutions,&lt;/li&gt;
+&lt;li&gt;get ideas on how to integrate security into typical DevOps environments and continuous workflows.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Software Architects and Developers who want to:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;learn about potential security vulnerabilities in common practices and tools,&lt;/li&gt;
+&lt;li&gt;understand the concerns of the security people,&lt;/li&gt;
+&lt;li&gt;improve their development chain by adding automated security checks.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Due to the large amount of tools and technologies, this training will not be able to cover security aspects of every single technology in detail. However, we are happy to receive specific questions before the training to potentially prepare additional material and you will get an overview how to approach unknown/new technologies from a security perspective.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Requirements&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;The attendees should have:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;intermediate knowledge of the Linux bash and a command line-based text editor (e.g. nano or vim)&lt;/li&gt;
+&lt;li&gt;a system with WLAN and an SSH client (i.e. PuTTY) which is able to connect via SSH to systems in the Internet.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For the exercises, we provide the needed infrastructure in a cloud environment which the attendees can connect to via SSH.&lt;/p&gt;
+&lt;h3 id=&#34;media-1&#34;&gt;Media&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://insinuator.net/2019/01/tr19-training-k8/&#34;&gt;Blogpost&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,33 @@
+baseURL: "http://blog.nody.cc/"
+languageCode: "en-us"
+title: "Nody´s blog"
+theme: "anubis"
+# theme: "ananke"
+paginate: 5
+
+menu:
+  main:
+  - identifier: "about"
+    name: "About"
+    title: "About"
+    url: "/about/"
+    weight: 1
+  - identifier: "tags"
+    name: "Tags"
+    title: "Tags"
+    url: "/tags/"
+    weight: 2
+  - identifier: "archive"
+    name: "Archive"
+    title: "Archive"
+    url: "/posts/"
+    weight: 3
+
+
+params:
+  author: "Jan Harrie"
+  description: "Blog with infosec content from Jan Harrie"
+  images:
+    - images/logo.png
+  mainSections:
+    - posts

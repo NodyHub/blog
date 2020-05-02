@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>nsx-t on Nody´s blog</title>
+    <link>https://blog.nody.cc/tags/nsx-t/</link>
+    <description>Nody´s blog (nsx-t)</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 17 Sep 2018 00:00:00 +0000</lastBuildDate>
+    
+    <atom:link href="https://blog.nody.cc/tags/nsx-t/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Attacking VMware NSX</title>
+      <link>https://blog.nody.cc/publication/2018-h2hc/</link>
+      <pubDate>Mon, 17 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.nody.cc/publication/2018-h2hc/</guid>
+      <description>&lt;p&gt;Matthias Luft &amp;amp; Jan Harrie, H2HC, São Paulo, Brazil&lt;/p&gt;
+&lt;h2 id=&#34;abstract&#34;&gt;Abstract&lt;/h2&gt;
+&lt;p&gt;In this presentation we will describe how we performed and still are performing an offensive security analysis of VMware&amp;rsquo;s SDN solution NSX. NSX integrates deeply into VMware&amp;rsquo;s virtualization infrastructure and provides network filtering features in a centrally managed, hypervisor-based micro segmentation way. The deep virtualization integration resulted in challenges that we will address in this talk. For example, we will detail how to analyze ESXi kernel modules, both in a debugging and static code analysis way. We will also provide an attack vector analysis based on the NSX architecture and communication protocols as well as fuzzing results and technologies for the kernel modules and overlay networking components.&lt;/p&gt;
+&lt;h2 id=&#34;media&#34;&gt;Media&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;../H2HC_HarrieLuft_AttackingVMwareNSX-1.pdf&#34;&gt;Slides&lt;/a&gt; and &lt;a href=&#34;https://github.com/h2hconference/2018&#34;&gt;other Slides&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.youtube.com/watch?v=tw0CRqBs8NY&amp;amp;t=10s&#34;&gt;Recording&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://insinuator.net/2018/11/h2hc2018/&#34;&gt;Blogpost&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
