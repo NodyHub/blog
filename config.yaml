@@ -4,6 +4,7 @@ title: "Nody´s blog"
 theme: "anubis"
 # theme: "ananke"
 paginate: 5
+enableRobotsTXT: true
 
 menu:
   main:
