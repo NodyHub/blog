@@ -1,6 +1,5 @@
 ---
 title: "Kubernetes Basics and Principles"
-date: 2020-06-27T11:31:27+02:00
 draft: false
 tags:
 - Kubernetes

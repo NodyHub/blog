@@ -70,7 +70,7 @@ The status of the crashed container is propagated into the “normal” containe
 
 ### Technical Implementation
 
-As an example how to create a proof of concept for a security measurement I decided to implement a check for Network Policies.
+As an example how to create a proof of concept for a security measurement I decided to implement a check for [Network Policies](/posts/kubernetes-basics/#network-policies).
 What is the easiest way to check if traffic is filter? Right – try to connect to the target should not be available.
 In this situation we may also be also interested if certain other hosts are available.
 
@@ -141,7 +141,7 @@ $
 ```
 
 As we can see the pod crashed and the cluster always tries to restart the pod.
-These crashes are propagated into the in-house container monitoring solution of your destiny.
+These crashes are propagated into the in-place container monitoring solution.
 The support or operations team that monitors the cluster health status can now react and create a ticket or even remediate the issue by performing a role-back of previous enrolled changes.
 The overall status change would have after remediation an output like the following:
 
