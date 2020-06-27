@@ -8,7 +8,9 @@ tags:
 - Network Policies
 ---
 
-Implement a technical service that checks on a regular basis if network policies are enforced by regular check if network communications can be established.
+Implement a techincal check that verifies implemented security measurements.
+In case of network policy, try to established a blocked network connections.
+Keep the checks as simple as possible and propgate the results in existing monitoring solution.
 
 <!--more--> 
 
@@ -21,7 +23,7 @@ To be more specific, this blog post addresses network policy verification in Kub
 It is an ongoing discussion as a security consultant to rate if something "is secure" and to motivate people to trust in the recommended solution that its secure.
 People always argue and discuss about feelings – something feels not secure // I feel not confi with the solution // are you sure that it is secure // whatever.
 So, you may now ask yourself how to handle such situations? To be honest, one must find a way to convince people that the introduced approach is "secure".
-As a technician I have faith in my solutions, but how to convince someone who has no trust?
+As a technician I have trust in my solutions, but how to convince someone who has no trust?
 
 This blog post addresses continuous verification of introduced security measurements, with [Kubernetes Network Policies](/posts/kubernetes-basics/#network-policies) as an example.
 
@@ -35,7 +37,7 @@ For a basic understanding, it would be from relevance to have some knowledge in 
 
 ## Solution
 
-I am absolutely not a mathematician or old Greek, but **reductio ad absurdum** describes how we are going to propose an approach to convert faith into provable trust. 
+I am absolutely not a mathematician or old Greek, but **reductio ad absurdum** describes how we are going to propose an approach to convert my trust into provable trust. 
 
 ### General approach
 
@@ -44,7 +46,7 @@ But, what does this exactly mean?
 
 Similar to test driven development one can create test cases for infrastructure components that verify that implemented security measurements are sufficient.  
 A lot of people do handle Kubernetes as a magic black box, or at least they speak about it like that. 
-To put light into the dark, a lot of features and functionalities are implemented in basic Linux features – especially in terms of security on container level.
+To put light into the dark, a lot of features and functionalities are implemented in basic Unix features – especially in terms of security on container level.
 
 The major question is now – **How do we verify that implemented features are sufficient? Just test it.** 
 Since we know that at the end of the day a lot of security measurements in Kubernetes are implemented by the container runtime environment, we can explicit test for them.
@@ -58,15 +60,12 @@ Multiple tests can be **performed with simple Unix command line tools** or other
 After executing these checks, the program returns with a return code that informs about a success or a failure.
 Such result can be evaluated, and the status propagated – technically spoke, **check continiously and evaluate the return code**.
 
-The magic question is now, how can we continuously monitor if security measurements stays valid? It’s easy – we use the same approach as the rest of the cluster workload is monitored. 
+The magic question is now, how can we **continuously monitor** if security measurements stays valid? It’s easy – we use the **same approach as the rest of the cluster workload** is monitored. 
 
 If a Kubernetes cluster is used to ship an application, somewhere the health state of the Pods is monitored.
 Normally, there is a dashboard with fancy pie charts and other useful information and typically there is also a place that shows which containers are up and running.
-If we want to propagate the security checks into the dashboard the easiest way is to let the container crash continuously. 
-
-We move the previous mentioned checks into a container and let the container execute the checks regularly.
-If it is possible to escalate from a container to the host or if it is possible to exhaust more resources as intended the container should crash.
-The status of the crashed container is propagated into the “normal” container monitoring lifecycle and follow-up actions must be performed. 
+If we want to propagate the **failure** of a **security checks** into the dashboard the easiest way is to let the container **crash continuously**. 
+The status of the crashed container is **propagated into** the normal **container monitoring lifecycle** and follow-up actions must be performed. 
 
 ### Technical Implementation
 
@@ -170,7 +169,7 @@ In my case I performed a role-back of the configuration and the pod could restar
 The general solution to generate trust for an implemented security measurement is by **implementing a check** that verifies the assumptions.
 To make use of the implemented check, it must also **easily integratable into existing life cycle**, e.g., continuous monitoring. 
 
-We have seen an approach how to **use basic Linux command line tools** to verify the validity of an implemented security measurement.
+We have seen an approach how to **use basic Unix command line tools** to verify the validity of an implemented security measurement.
 The implementation of a technical PoC is kept as simple as possible to reduce bugs in the test itself.
 
 The overall intention is to **reduce the amount of time that is spend during endless meetings that discuss if a measurement is sufficient or not**.
@@ -184,5 +183,10 @@ The researchers state in their session how security checks can be continuously p
 
 As a little disclaimer, the implemented bash script is a quick and dirty hack, which should show that not always an over-engineered solution is necessary to perform simple tasks ;o) 
 
+## Links
 
+- [Shell script](https://github.com/NodyHub/docker-k8s-resources/blob/master/docker-images/test-tcp/test.sh)
+- [Dockerfile](https://github.com/NodyHub/docker-k8s-resources/blob/master/docker-images/test-tcp/Dockerfile)
+- [Docker Hub Image](https://hub.docker.com/r/nodyd/test-tcp)
+- [Kubernetes Resources](https://github.com/NodyHub/docker-k8s-resources/blob/master/docker-images/test-tcp/test-tcp.yaml)
 
