@@ -2,6 +2,8 @@
 title: "Kubernetes Basics and Principles"
 date: 2020-06-27T11:31:27+02:00
 draft: false
+tags:
+- Kubernetes
 ---
 
 This blogpost is intended to be a background knowledge section for further posts. The content is all around Kubernetes basic principles and reflects more a dictionary then a legitim blog post. The section itself may not explain every nuance of the topic – only as much as necessary as needed in other posts. 
