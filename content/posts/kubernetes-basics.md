@@ -18,15 +18,6 @@ Kubernetes offers fine-grained permission management capabilities that can be se
 
 The most interesting part is that an administrator can install and configure the cluster and slice it into pieces, which can be managed within these pieces independent.
 
-## Namespaces
-Todo
-
-## Role Based Access Control (RBAC)
-Todo
-
-## Pod
-(pod is the smallest atomic unit that represent workload in a cluster [6])
-
 ## Networking
 One of the Kubernetes advantages (maybe also disadvantages) is that it is built like a big and flexible framework. Besides different storage classes and different authentication provider, the implementation of the [Cluster Networking](https://kubernetes.io/docs/concepts/cluster-administration/networking/) can be exchanged. Kubernetes offers the flexibility to set for the overall cluster one network plugin. These network plugins are created and maintained independent of the Kubernetes project, like [Calico](https://www.projectcalico.org/) or [Cilium](https://cilium.io). Even the cloud provider like AWS implement their own plugins for an optimal integration into the cloud environment. The decision which network plugin depends on the requirements. Requirements can be reliability, encryption, speed, or Network Policies. Only one network plugin can be configured for a cluster.
 ## Network Policies
