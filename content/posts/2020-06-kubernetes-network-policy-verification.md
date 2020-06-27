@@ -1,5 +1,5 @@
 ---
-title: "Verify your Kubernetes Cluster Network Policies: From faith to proof"
+title: "Verify your Kubernetes Cluster Network Policies: From Faith to Proof"
 date: 2020-06-27T11:39:55+02:00
 draft: false
 tags:
