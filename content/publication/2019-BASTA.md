@@ -6,6 +6,7 @@ description: Conference slides from BASTA! 2019 in Main, Germany
 tags:
 - DevSecOps
 - basta
+- security
 ---
 
 Jan Harrie, BASTA! Autumn 2019, Mainz, Germany

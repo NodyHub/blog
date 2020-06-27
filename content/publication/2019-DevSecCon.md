@@ -7,6 +7,7 @@ tags:
 - OpenShift
 - Kubernetes
 - devseccon
+- security
 ---
 
 Jan Harrie, DevSecCon, London, United Kingdom

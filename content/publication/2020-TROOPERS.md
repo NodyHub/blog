@@ -8,6 +8,7 @@ tags:
 - Kubernetes
 - DevSecOps
 - troopers
+- security
 ---
 
 Kevin Kelpen & Jan Harrie, TROOPERS20, Heidelberg, Germany
