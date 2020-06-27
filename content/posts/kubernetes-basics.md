@@ -6,6 +6,8 @@ draft: false
 
 This blogpost is intended to be a background knowledge section for further posts. The content is all around Kubernetes basic principles and reflects more a dictionary then a legitim blog post. The section itself may not explain every nuance of the topic – only as much as necessary as needed in other posts. 
 
+<!--more--> 
+
 The list of topics and explanations may be updated over the time.
 
 ## Kubernetes itself
