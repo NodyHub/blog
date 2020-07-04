@@ -8,7 +8,7 @@ tags:
 - Network Policies
 ---
 
-Implement a techincal check that verifies implemented security measurements. In case of network policy, try to established a blocked network connections. Keep the checks as simple as possible and propgate the results in existing monitoring solution.
+Implement a technical check that verifies implemented security measurements. In case of network policy, try to establish a blocked network connection. Keep the checks as simple as possible and propagate the results in existing monitoring solution.
 
 <!--more--> 
 
