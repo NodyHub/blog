@@ -4,6 +4,7 @@ date: 2020-07-11T13:09:54+02:00
 draft: true
 ---
 
+
 If you are bored of searching for the most-known container breakout techniques, here is a collection. This post addresses abuse of [shared root filesystem](#shared-host-root-directory) (2 ways), [privileged container](#privileged-container) (3 ways) and access to the [Docker Socket](#docker-socket) (1 way). Okay, to be fair – some techniques refer to each other. Enjoy! :)
 
 ## Intro
@@ -24,7 +25,7 @@ Let’s assume that the host root directory is accessible at `/hostfs`
 
 #### SSH to user
 
-To escalate to the host, we **create a user** in the file `/hostfs/etc/passwd` and **add** the user **to** the **sudoer’s**. After the user is prepared, we connect via **SSH** to the host. Okay, it is a kind of constructed, because certain packages must have been installed and services running, you get the idea :)
+To escalate to the host, we **create a user** in the file `/hostfs/etc/passwd` and **add** the user **to** the **sudoer’s**. After the user is prepared, we connect via **SSH** to the host. Okay, it is a kind of constructed, because certain packages must have been installed and services running, but you get the idea :)
 
 ```
 # cat /hostfs/etc/passwd | grep 1000
