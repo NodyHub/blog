@@ -4,6 +4,9 @@ date: 2020-07-11T13:09:54+02:00
 draft: true
 ---
 
+
+Basic Container Breakouts
+
 If you are bored of searching for the most-known container breakout techniques, here is a collection. This post addresses abuse of [shared root filesystem](#shared-host-root-directory) (2 ways), [privileged container](#privileged-container) (3 ways) and access to the [Docker Socket](#docker-socket) (1 way). Okay, to be fair – some techniques refer to each other.
 
 ## Intro
@@ -142,4 +145,20 @@ user@b89e2cfbd699:~$
 ```
 
 With the access to a privileged container, you can **perform** the **steps as already explained** in previous section [Privileged Container](#privileged-container).
+
+## Conclusion
+
+The listed container breakouts are in my humble opinion the most basic one. The list is for sure not complete and as soon as I am in the mood, I might update, extend or re-organize the techniques. Due to the fact that I am only a consumer of already existing research I want to give out a big thanks for sharing the knowledge that I have consumed in the past years from:
+
+- Brad Geesaman – [@bradgeesaman](https://twitter.com/bradgeesaman)
+- Chris Le Roy – [@brompwnie](https://github.com/brompwnie)
+- Duffie Cooley – [@mauilion](https://twitter.com/mauilion)
+- Ian Coldwater – [@IanColdwater](https://twitter.com/IanColdwater)
+- Jessie Frazelle – [@jessfraz](https://twitter.com/jessfraz)
+- Mark Manning – [@antitree](https://twitter.com/antitree) 
+- Matthias Luft – test [@uchi_mata](https://twitter.com/uchi_mata)
+- Rory McCune – [@raesene](https://twitter.com/raesene)
+
+To name a few – you are awesome – please continue !!
+
 
