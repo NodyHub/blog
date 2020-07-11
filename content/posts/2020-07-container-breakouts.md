@@ -4,8 +4,11 @@ date: 2020-07-11T13:09:54+02:00
 draft: true
 ---
 
+If you are bored of searching for the most-known container breakout techniques, here is a collection. This post addresses abuse of [shared root filesystem](#shared-host-root-directory) (2 ways), [privileged container](#privileged-container) (3 ways) and access to the [Docker Socket](#docker-socket) (1 way). 
 
-If you are bored of searching for the most-known container breakout techniques, here is a collection. This post addresses abuse of [shared root filesystem](#shared-host-root-directory) (2 ways), [privileged container](#privileged-container) (3 ways) and access to the [Docker Socket](#docker-socket) (1 way). Okay, to be fair – some techniques refer to each other. Enjoy! :)
+<!--more-->
+
+Okay, to be fair – some techniques refer to each other. Enjoy! 
 
 ## Intro
 
