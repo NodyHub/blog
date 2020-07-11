@@ -85,7 +85,7 @@ There are multiple ways to escape from a privileged container. Let us have a sta
 
 #### Capabilities
 
-We will now explore two techniques that can be used to break out of the container. It is important to note here that it is only possible to abuse the capabilities, because there is no seccop filter in place if a container is started with `--privileged`. The absence of a seccomp filter is not default in vase of a docker container.
+We will now explore two techniques that can be used to break out of the container. It is important to note here that it is only possible to abuse the [capabilities](https://man7.org/linux/man-pages/man7/capabilities.7.html), because there is no [seccop](https://man7.org/linux/man-pages/man2/seccomp.2.html) filter in place if a container is started with `--privileged`. The absence of a seccomp filter is not default in vase of a docker container.
 
 To explore the kernel capabilities, you can run the command `capsh --print`. In case of a privileged container, they get not reduced and the process have them all. An example output looks as following:
 ```
