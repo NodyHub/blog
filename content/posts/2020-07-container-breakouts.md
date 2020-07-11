@@ -110,9 +110,9 @@ This technique got popular after Felix Wilhelm ([@_fel1x](https://twitter.com/_f
 
 Here is just the quintessence of this approach:
 1. Create a new cgroup
-2. activate “callback” with `notify_on_release`
-3. create callback
-4. create ephemeral cgroup to trigger callback
+2. Activate “callback” with `notify_on_release`
+3. Create “callback”
+4. Create ephemeral process in new cgroup to trigger “callback”
 ```
 # mkdir /tmp/cgrp && mount -t cgroup -o rdma cgroup /tmp/cgrp && mkdir /tmp/cgrp/escape_cgroup
 
