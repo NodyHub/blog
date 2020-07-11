@@ -17,7 +17,7 @@ The attacks refer to each other, cause the root-cause why an attack is possible 
 
 If you got access to a container that shares directories with the host, that is not direct a problem. But, if the container has access to the host root-filesystem as user root (pre-assumed that there is no [AppArmor](https://man.cx/apparmor(7)) or [SELinux](https://man7.org/linux/man-pages/man8/selinux.8.html) in place) you got the jack pot! We have multiple ways to approach the underlying host.
 
-Lets assume that the host root directory is accessible at `/hostfs`
+Let’s assume that the host root directory is accessible at `/hostfs`
 
 #### SSH to user
 
@@ -77,7 +77,7 @@ In this second showcase, we assumed that a cron service was running on the host.
 ### Privileged Container
 If you start a container with Docker and you add the flag `--privileged` that means to the process in the container can act as root user on the host. The containerization would have the advantage of self-containing software shipment, but no real security boundaries to the kernel.
 
-There are plenty ways to escape from a privileged container. Let’s have a start.
+There are multiple ways to escape from a privileged container. Let us have a start.
 
 #### Capabilities
 
