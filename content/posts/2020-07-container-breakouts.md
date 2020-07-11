@@ -102,7 +102,7 @@ groups=0(root)
 ```
 
 ##### `CAP_SYS_ADMIN` – cgroup release on notfy
-One of the of the highly sensitive kernel capabilities is `CAP_SYS_ADMIN`. If you are acting in a container with this capability, you can start manage the cgroups of the container. As a short re-cap – cgroups are used to manage the system resources of the container. 
+One of the of the highly sensitive kernel capabilities is `CAP_SYS_ADMIN`. If you are acting in a container with this capability, you can start manage the cgroups of the container. As a short re-cap – [cgroups](https://man7.org/linux/man-pages/man7/cgroups.7.html) are used to manage the system resources of the container. 
 
 In this escape, we use a feature of cgroups that allows the execution of code in the root context, after the last process in a cgroup is terminated. The feature is called “notification on release” and can only be set, because we have the capability `CAP_SYS_ADMIN`. 
 
