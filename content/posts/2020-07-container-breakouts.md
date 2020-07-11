@@ -82,11 +82,24 @@ total 0
 crw-r--r-- 1 root root  10, 235 Jul 11 09:20 autofs
 
 [...]
-
 brw-rw---- 1 root  994   8,   0 Jul 11 09:20 sda
 brw-rw---- 1 root  994   8,   1 Jul 11 09:20 sda1
-
 [...]
+# mount /dev/sda1 /mnt/
+user@732c0d1ca2db:~$ ls -l /mnt/
+total 132
+lrwxrwxrwx   1 root root     7 Nov 19  2019 bin -> usr/bin
+drwxr-xr-x   4 root root  4096 May 13 13:29 boot
+[…]
+drwxr-xr-x 104 root root 12288 Jul 11 10:09 etc
+drwxr-xr-x   4 root root  4096 Jun 30 14:47 home
+[…]
+drwxr-x---   9 root root  4096 Jul 11 10:09 root
+[…]
+lrwxrwxrwx   1 root root     7 Nov 19  2019 sbin -> usr/bin
+[…]
+drwxr-xr-x  10 root root  4096 May 26 14:37 usr
+[…]
 ```
 As you can see, the hard drive itself is listed, which can be mounted. After mounting the device, it is possible to interact as root user with the device and backdoor the system.
 Getting access via the hard drive is already described in the previous section [Shared Host root-directory](#shared-host-root-directory).
