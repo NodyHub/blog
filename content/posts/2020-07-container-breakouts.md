@@ -3,6 +3,7 @@ title: "Container Breakouts Techniques"
 date: 2020-07-11T13:09:54+02:00
 draft: true
 ---
+
 Basic Container Breakouts
 ## Intro
 The motivation of this post is to collect container breakouts. I was considering writing a huge post about all the stuff you must know to break out of container. But, if I would do so, it will take ages to write, es well to read and at the end you would just scroll direct to the PoC code snippets. So I dropped that idea and will just link to additional readings.
@@ -15,6 +16,7 @@ The attacks refer to each other, cause the root-cause why an attack is possible 
 ### Shared Host root-directory
 
 If you got access to a container that shares directories with the host, that is not direct a problem. But, if the container has access to the host root-filesystem as user root (pre-assumed that there is no [AppArmor](https://man.cx/apparmor(7)) or [SELinux](https://man7.org/linux/man-pages/man8/selinux.8.html) in place) you got the jack pot! We have multiple ways to approach the underlying host.
+
 Lets assume that the host root directory is accessible at `/hostfs`
 
 #### SSH to user
@@ -74,6 +76,7 @@ In this second showcase, we assumed that a cron service was running on the host.
 
 ### Privileged Container
 If you start a container with Docker and you add the flag `--privileged` that means to the process in the container can act as root user on the host. The containerization would have the advantage of self-containing software shipment, but no real security boundaries to the kernel.
+
 There are plenty ways to escape from a privileged container. Let’s have a start.
 
 #### Capabilities
@@ -116,18 +119,23 @@ drwxr-xr-x  10 root root  4096 May 26 14:37 usr
 # mount /dev/sda1 /hostfs
 ```
 As you can see, the hard drive itself is listed, which can be mounted. After mounting the device, it is possible to interact as root user with the device and backdoor the system.
+
 Getting access via the hard drive is already described in the previous section [Shared Host root-directory](#shared-host-root-directory).
 
 
 ### Docker Socket
 
 You know, every time you have access to the Docker Socket (default location: `/var/run/docker.sock`) it means that you are root on the host. Some containerized application may need access to the socket, e.g., for observation or local system management.
+
 You have read correctly, local system management. As soon you have access to the socket, you can manage the local system. Okay, first at all, you can manage containers and these containers can afterwards manage the system. 
+
 So if you want to escalate from the container to the system, you can interact with the Docker Socket manually or just simple install Docker in the container. Okay, and what’s the next step? Exactly, you had it already in your mind, start a privileged container. 
+
 ```
 # apt update && apt install -y docker.io
 # docker run --rm --privileged -it nodyd/ana bash
 user@b89e2cfbd699:~$
 ```
+
 With  access to a privileged container, you can perform the steps as already explained in previous section [Privileged Container](#privileged-container).
 
