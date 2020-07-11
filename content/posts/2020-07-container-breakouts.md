@@ -21,7 +21,7 @@ Let’s assume that the host root directory is accessible at `/hostfs`
 
 #### SSH to user
 
-To escalate to the host, we create a user in the file `/hostfs/etc/passwd` and add the user to the sudoer’s. After the user is prepared, we connect via SSH to the host. Okay, it is a kind of flaky, because certain packages must have been installed and services running, you get the idea :)
+To escalate to the host, we **create a user** in the file `/hostfs/etc/passwd` and **add** the user **to** the **sudoer’s**. After the user is prepared, we connect via **SSH** to the host. Okay, it is a kind of flaky, because certain packages must have been installed and services running, you get the idea :)
 
 ```
 # cat /hostfs/etc/passwd | grep 1000
@@ -49,7 +49,7 @@ We have assumed that there is a SSH daemon running on the host, the service is n
 
 #### Cronjob
 
-Another approach would be to write a cronjob file that get triggered every minute and connects to our container as root user.
+Another approach would be to write a **cronjob** file that is executed every minute and starts a **reverse shell** as user `root`.
 
 ```
 # ip a
@@ -75,7 +75,7 @@ In this second showcase, we assumed that a cron service was running on the host.
 
 
 ### Privileged Container
-If you start a container with Docker and you add the flag `--privileged` that means to the process in the container can act as root user on the host. The containerization would have the advantage of self-containing software shipment, but no real security boundaries to the kernel.
+If you start a container with Docker and you add the flag `--privileged` that means to the process in the container can act as root user on the host. The containerization would have the advantage of self-containing software shipment, but **no** real **security boundaries to** the **kernel**.
 
 There are multiple ways to escape from a privileged container. Let us have a start.
 
@@ -87,9 +87,9 @@ https://www.cyberark.com/resources/threat-research-blog/how-i-hacked-play-with-d
 ##### `CAP_SYS_ADMIN` – cgroup release on notfy
 TODO … have to read :D
 
-#### Host devices
+#### Host Devices
 
-I prefer to use the host devices to escape from a privileged container. A quick directory listing of the devices in the container shows that we have access to all of them:
+I prefer to use the host devices to escape from a privileged container. A quick directory listing of the **devices** in the container shows that we have **access to all** of them:
 
 ```
 root@0462216e684b:~# ls -l /dev/
@@ -118,18 +118,18 @@ drwxr-xr-x  10 root root  4096 May 26 14:37 usr
 # mkdir /hostfs
 # mount /dev/sda1 /hostfs
 ```
-As you can see, the hard drive itself is listed, which can be mounted. After mounting the device, it is possible to interact as root user with the device and backdoor the system.
+As you can see, the **hard drive** itself is listed, which can be **mounted**. After mounting the device, it is possible to interact as root user with the device and backdoor the system.
 
 Getting access via the hard drive is already described in the previous section [Shared Host root-directory](#shared-host-root-directory).
 
 
 ### Docker Socket
 
-You know, every time you have access to the Docker Socket (default location: `/var/run/docker.sock`) it means that you are root on the host. Some containerized application may need access to the socket, e.g., for observation or local system management.
+You know, every time you have **access to the Docker Socket** (default location: `/var/run/docker.sock`) it **means** that you are **root on the host**. Some containerized application may need access to the socket, e.g., for observation or local system management.
 
 You have read correctly, local system management. As soon you have access to the socket, you can manage the local system. Okay, first at all, you can manage containers and these containers can afterwards manage the system. 
 
-So if you want to escalate from the container to the system, you can interact with the Docker Socket manually or just simple install Docker in the container. Okay, and what’s the next step? Exactly, you had it already in your mind, start a privileged container. 
+So if you want to escalate from the container to the system, you can **interact** with the **Docker Socket manually or **just simple **install Docker** in the container. Okay, and what’s the next step? Exactly, you had it already in your mind, start a privileged container. 
 
 ```
 # apt update && apt install -y docker.io
@@ -137,5 +137,5 @@ So if you want to escalate from the container to the system, you can interact wi
 user@b89e2cfbd699:~$
 ```
 
-With  access to a privileged container, you can perform the steps as already explained in previous section [Privileged Container](#privileged-container).
+With the access to a privileged container, you can **perform** the **steps as already explained** in previous section [Privileged Container](#privileged-container).
 
