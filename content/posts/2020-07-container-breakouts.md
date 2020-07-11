@@ -4,6 +4,7 @@ date: 2020-07-11T13:09:54+02:00
 draft: true
 ---
 
+
 If you are bored of searching for the most-known container breakout techniques, here is a collection. This post addresses abuse of [shared root filesystem](#shared-host-root-directory) (2 ways), [privileged container](#privileged-container) (3 ways) and access to the [Docker Socket](#docker-socket) (1 way). Okay, to be fair – some techniques refer to each other. Enjoy! :)
 
 ## Intro
@@ -105,7 +106,7 @@ One of the of the highly sensitive kernel capabilities is `CAP_SYS_ADMIN`. If yo
 
 In this escape, we use a feature of cgroups that allows the execution of code in the root context, after the last process in a cgroup is terminated. The feature is called “notification on release” and can only be set, because we have the capability `CAP_SYS_ADMIN`. 
 
-This technique got popular after Fellix Wilhelm (@fel1x) from Google Project put the escape in one tweet. [Trail of Bits](https://www.trailofbits.com/) has even investigated further this topic and all details can be read in their blogpost [Understanding Docker container escapes](https://blog.trailofbits.com/2019/07/19/understanding-docker-container-escapes/). 
+This technique got popular after Felix Wilhelm ([@_fel1x](https://twitter.com/_fel1x)) from [Google Project Zero]( https://googleprojectzero.blogspot.com/) put the escape in one tweet. [Trail of Bits](https://www.trailofbits.com/) has even investigated further this topic and all details can be read in their blogpost [Understanding Docker container escapes](https://blog.trailofbits.com/2019/07/19/understanding-docker-container-escapes/). 
 
 Here is just the quintessence of this approach:
 1. Create a new cgroup
