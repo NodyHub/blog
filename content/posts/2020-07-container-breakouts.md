@@ -4,13 +4,16 @@ date: 2020-07-11T13:09:54+02:00
 draft: true
 ---
 
-Basic Container Breakouts
+If you are bored of searching for the most-known container breakout techniques, here is a collection. This post addresses abuse of shared root filesystem (2 ways), privileged container (3 ways) and access to the Docker Socket (1 way). 
+
 ## Intro
+
 The motivation of this post is to collect container breakouts. I was considering writing a huge post about all the stuff you must know to break out of container. But, if I would do so, it will take ages to write, es well to read and at the end you would just scroll direct to the PoC code snippets. So I dropped that idea and will just link to additional readings.
 
 It may the case that not all breakouts that you have in mind are listed. Do not hesitate and contact me so that I can add them. Over the time, I may extend them as well.
 
 ## Attacks
+
 The attacks refer to each other, cause the root-cause why an attack is possible may differ, but the final break out may be the same. The examples are related to docker. The transfer to other container technologies, e.g., LXC may be slightly different and maybe there will be a follow-up post regarding this ;)
 
 ### Shared Host root-directory
@@ -82,6 +85,7 @@ There are multiple ways to escape from a privileged container. Let us have a sta
 #### Capabilities
 
 ##### `CAP_SYS_Module` – Load Kernel Module 
+
 https://www.cyberark.com/resources/threat-research-blog/how-i-hacked-play-with-docker-and-remotely-ran-code-on-the-host 
 
 ##### `CAP_SYS_ADMIN` – cgroup release on notfy
