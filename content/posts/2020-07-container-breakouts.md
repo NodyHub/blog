@@ -89,7 +89,7 @@ brw-rw---- 1 root  994   8,   1 Jul 11 09:20 sda1
 [...]
 ```
 As you can see, the hard drive itself is listed, which can be mounted. After mounting the device, it is possible to interact as root user with the device and backdoor the system.
-Getting access via the hard drive is already described in the previous section ***XYZ***
+Getting access via the hard drive is already described in the previous section [Shared Host root-directory](#shared-host-root-directory).
 
 
 #### cgroups
