@@ -23,6 +23,8 @@ The following posts are part of the series:
 - [Part 2: Privileged Container](../container-breakouts-part2)
 - [Part 3: Docker Socket](../container-breakouts-part3)
 -->
+
+
 ## Intro
 
 The **motivation** of this post is to **collect container breakouts**. I was considering writing a huge post about all the stuff you must know to break out of container. But, if I would do so, it will take ages to write, es well to read and at the end you would just scroll direct to the PoC code snippets. So I dropped that idea and will just link to additional readings.
@@ -112,7 +114,7 @@ Furthermore, the proposed techniques are possible approaches to escape out of a 
 
 I may update the list from time-to-time. If you have important approaches that you think they should be listed, do not hesitate and get in touch.
 
-If you are interested in further, less riotous techniques stay tuned for the next post _**Container Breakouts – Part 2: Privileged Container**_.
+If you are interested in further, less riotous techniques stay tuned for the next post _**Part 2: Privileged Container**_.
 <!--
 If you are interested in further, less riotous techniques continue with the next post [Container Breakouts – Part 2: Privileged Container](../container-breakouts-part2).
 -->
