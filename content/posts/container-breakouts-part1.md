@@ -14,8 +14,8 @@ This post is part of a series and shows container breakout techniques that can b
 
 The following posts will be part of the series:
 - Part 1: Access to root directory of the Host
-- Part 2: Privileged Container
-- Part 3: Docker Socket
+- Part 2: Privileged Container (not yet published)
+- Part 3: Docker Socket (not yet published)
 
 <!--
 The following posts are part of the series:

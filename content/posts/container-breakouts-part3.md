@@ -25,7 +25,7 @@ It may the case that not all breakouts that you have in mind are listed. Do not 
 
 ## Docker Socket
 
-You know, every time you have **access to the Docker Socket** (default location: `/var/run/docker.sock`) it **means** that you are **root on the host**. Some containerized application may need access to the socket, e.g., for observation or local system management.
+You know, every time you have **access to the Docker Socket** (default location: `/var/run/docker.sock`) it **means** that you are **root on the host**. Here should be mentioned that it might be the case that you are not root on the system, if docker is used root-less. Some containerized application may need access to the socket, e.g., for observation or local system management.
 
 You have read correctly, local system management. As soon you have **access to** the **socket**, you can **manage** the local **system**. Okay, first at all, you can manage containers and these containers can afterwards manage the system. 
 
@@ -60,6 +60,8 @@ To get details about which namespace is assigned to a process, we can take this 
 - network (`net`)
 - process id (`pid`)
 - hostname (`uts`)
+
+The [CIS Docker Benchmark](https://www.cisecurity.org/benchmark/docker/) recommends as well to configure docker in a way to spawn an own user namespace (`uid`).
 
 If we want to break out of the container to get fully system access we **start** a new **container with all (possible) namespaces** from the host via the docker socket. Only the `mnt` namespace cannot be set at container startup. Due to the fact that we start our container **privileged**, there is no seccomp filter in place and we can use `nsenter` to **switch** to **mount namespace** of the `init` process.
 
@@ -134,6 +136,7 @@ Due to the fact that I am only a consumer of already existing research I want to
 - Ian Coldwater – [@IanColdwater](https://twitter.com/IanColdwater)
 - Jessie Frazelle – [@jessfraz](https://twitter.com/jessfraz)
 - Mark Manning – [@antitree](https://twitter.com/antitree) 
+- Matthias Luft – [@uchi_mata](https://twitter.com/uchi_mata)
 - Rory McCune – [@raesene](https://twitter.com/raesene)
 
 To name a few – you are awesome – please continue !!
