@@ -8,7 +8,6 @@ tags:
 - security
 ---
 
-
 This post is part of a series and shows container breakout techniques that can be performed if a container is started privileged.
 
 <!--more-->
@@ -28,7 +27,7 @@ The following posts are part of the series:
 
 ## Intro
 
-This is the second post of my container breakout series. After the discussion how to escape from a system with access only to the root directory, we will now dive into the privileged container. The escalation itself is this time a bit more OpSec-safe then the previous, but still a bit noisy. The proposed techniques are now more container related, then the previous post.
+This is the second post of my container breakout series. After the discussion on how to escape from a system with access only to the root directory, we will now dive into the privileged container. The escalation itself is this time a bit more OpSec-safe then the previous, but still a bit noisy. The proposed techniques are now more container related, then the previous post.
 
 ## Privileged Container
 
@@ -38,7 +37,7 @@ There are multiple ways to escape from a privileged container. Let us have a loo
 
 ### Capabilities
 
-We will now explore two techniques that can be used to break out of the container. It is important to note here that it is only possible to abuse the [capabilities](https://man7.org/linux/man-pages/man7/capabilities.7.html), because there is no [seccop](https://man7.org/linux/man-pages/man2/seccomp.2.html) filter in place. This is the case if a container is started with `--privileged`. Docker container are normally started with a seccomp filter enabled and give an additional layer of security.
+We will now explore two techniques that can be used to break out of the container. It is important to note here that it is only possible to abuse the [capabilities](https://man7.org/linux/man-pages/man7/capabilities.7.html), because there is no [seccop](https://man7.org/linux/man-pages/man2/seccomp.2.html) filter in place. This is the case if a container is started with `--privileged`. Docker containers are normally started with a seccomp filter enabled and give an additional layer of security.
 
 The available capabilities inside the container can be printed with the command `capsh --print`. The details about each capability can be taken from the man page (`man capavilities`). In case of a privileged container, all capabilities are available. An example output looks like following:
 
@@ -68,11 +67,11 @@ user@ca719daf3844:~$ capsh --decode=0000003fffffffff
 0x0000003fffffffff=cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_linux_immutable,cap_net_bind_service,cap_net_broadcast,cap_net_admin,cap_net_raw,cap_ipc_lock,cap_ipc_owner,cap_sys_module,cap_sys_rawio,cap_sys_chroot,cap_sys_ptrace,cap_sys_pacct,cap_sys_admin,cap_sys_boot,cap_sys_nice,cap_sys_resource,cap_sys_time,cap_sys_tty_config,cap_mknod,cap_lease,cap_audit_write,cap_audit_control,cap_setfcap,cap_mac_override,cap_mac_admin,cap_syslog,cap_wake_alarm,cap_block_suspend,cap_audit_read
 ```
 
-A detailed summary about sensitive kernel capabilities can taken from the forum [grsecurity](https://grsecurity.net/) post from spender [False Boundaries and Arbitrary Code Execution](https://forums.grsecurity.net/viewtopic.php?t=2522).
+A detailed summary of sensitive kernel capabilities can be taken from the forum [grsecurity](https://grsecurity.net/) post from spender [False Boundaries and Arbitrary Code Execution](https://forums.grsecurity.net/viewtopic.php?t=2522).
 
 #### `CAP_SYS_ADMIN` – cgroup notify on release escape
 
-One of the dangerous kernel capabilities is `CAP_SYS_ADMIN`. If you are acting in a container with this capability, you can manage cgroups of the system. As a short re-cap – [cgroups](https://man7.org/linux/man-pages/man7/cgroups.7.html) are used to manage the system resources for container (that’s very brief – I know). 
+One of the dangerous kernel capabilities is `CAP_SYS_ADMIN`. If you are acting in a container with this capability, you can manage cgroups of the system. As a short re-cap – [cgroups](https://man7.org/linux/man-pages/man7/cgroups.7.html) are used to manage the system resources for a container (that’s very brief – I know). 
 
 In this escape, we use a **feature of cgroups** that allows the **execution** of code **in** the **root context**, after the last process in a cgroup is terminated. The feature is called **“notification on release”** and can only be set, because we have the capability `CAP_SYS_ADMIN`. 
 
@@ -81,7 +80,7 @@ This technique got popular after Felix Wilhelm ([@_fel1x](https://twitter.com/_f
 Here is just the quintessence of this approach:
 1. Create a new cgroup
 2. Create and activate “callback” with `notify_on_release`
-3. Create ephemeral process in new cgroup to trigger “callback”
+3. Create an ephemeral process in new cgroup to trigger “callback”
 
 The following commands are necessary to perform the attack:
 
@@ -115,15 +114,15 @@ To by honest, this **technique** was in my setup **a bit flaky** and I had some 
 
 #### `CAP_SYS_Module` – Load Kernel Module 
 
-What do you need to **load a kernel module on a unix host**? Exact, the right capability: `CAP_SYS_MODULE`. In advance, you **must** be in the **same process namespace as** the **init** process, but **that is default** in case of plain Docker setups. You think now _how dare you_ this is something nobody would do!? That is exactly what happened to _Play-with-Docker_. I recommend reading the post [How I Hacked Play-with-Docker and Remotely Ran Code on the Host](https://www.cyberark.com/resources/threat-research-blog/how-i-hacked-play-with-docker-and-remotely-ran-code-on-the-host) by Nimrod Stoler ([@n1mr0d5](https://twitter.com/n1mr0d5)) to get all insights and the full picture.
+What do you need to **load a kernel module on a Unix host**? Exact, the right capability: `CAP_SYS_MODULE`. In advance, you **must** be in the **same process namespace as** the **init** process, but **that is default** in case of plain Docker setups. You think now _how dare you_ this is something nobody would do!? That is exactly what happened to _Play-with-Docker_. I recommend reading the post [How I Hacked Play-with-Docker and Remotely Ran Code on the Host](https://www.cyberark.com/resources/threat-research-blog/how-i-hacked-play-with-docker-and-remotely-ran-code-on-the-host) by Nimrod Stoler ([@n1mr0d5](https://twitter.com/n1mr0d5)) to get all insights and the full picture.
 
-The exploitation cannot be that easily weaponized, because we need a **kernel module** that **fits** the **kernel version**. To do so, we need to **compile** our own **kernel module** for the host system kerne. I thought initially that’s an easy one, just _copy&paste_ the code, compile and finished. Sounds easy? Actually, it is not that easy if you have an ubuntu container on an Archlinux host – sigh.
+The exploitation cannot be that easily weaponized, because we need a **kernel module** that **fits** the **kernel version**. To do so, we need to **compile** our own **kernel module** for the host system kerne. I thought initially that’s an easy one, just _copy&paste_ the code, compile and finished. Sounds easy? It is not that easy if you have an Ubuntu container on an Archlinux host – sigh.
 
-To perform the steps I had to cheat a bit. Previously, we have performed all steps from inside the container. This time, I will **pre-compile** the **kernel module outside** of the **container**. Why is that necessary in my case? Because I had issues to compile the kernel module for the Archlinux kernel inside an ubuntu container with the ubuntu tool chain. I am not a kernel developer, so I dropped to dive into the issues and let someone with more expertise to deep-dive on that topic.
+To perform the steps I had to cheat a bit. Previously, we have performed all steps from inside the container. This time, I will **pre-compile** the **kernel module outside** of the **container**. Why is that necessary in my case? Because I had issues to compile the kernel module for the Archlinux kernel inside an ubuntu container with the Ubuntu toolchain. I am not a kernel developer, so I dropped to dive into the issues and let someone with more expertise to deep-dive on that topic.
 
 To **prepare** the **kernel module**, you **need** the **kernel headers** for the host that runs the container. You can find them while googling through the internet and search for the kernel version headers (kernel version can be identified by `uname -r`). Afterward, you need the _gcc_ compiler and _make_ and that’s it.
 
-The following steps has been performed on a separate host (an ubuntu system).
+The following steps have been performed on a separate host (an ubuntu system).
 
 ```
 # apt update && apt install -y gcc make linux-headers 
@@ -267,16 +266,16 @@ Escalating the access to the root directory of the host is already described in 
 
 ## Conclusion
 
-We have seen three approaches that can be used if a Unix container is started with insecure configuration. 
+We have seen three approaches that can be used if a Unix container is started with an insecure configuration. 
 
 The main take away message is that one should **be careful if** a **container must** be **started** in **privileged** mode. Ether it is one of the management components that are needed for controlling the container host system or a malicious agenda. **Never start a container privileged if it is not necessary** and review carefully the additional capabilities that a container might require.
 
 Now you know why we discussed the breakout techniques with access to the root directory, before I discussed the access to the host devices.
 
-If you are interested how to use the Docker socket to get out of the container, stay tuned for the next blog post of the series _**Part 3: Docker Socket**_.
+If you are interested in how to use the Docker socket to get out of the container, stay tuned for the next blog post of the series _**Part 3: Docker Socket**_.
 
 <!--
-If you are interested how to use the Docker socket to get out of the container, continue with the next post [Part 3: Docker Socket](../container-breakouts-part3).
+If you are interested in how to use the Docker socket to get out of the container, continue with the next post [Part 3: Docker Socket](../container-breakouts-part3).
 -->
 
 

