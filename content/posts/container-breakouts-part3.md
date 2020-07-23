@@ -1,6 +1,6 @@
 ---
 title: "Container Breakouts – Part 3: Docker Socket"
-date: 2020-07-15T11:56:35+02:00
+date: 2020-07-29T11:56:35+02:00
 draft: true
 tags:
 - docker

