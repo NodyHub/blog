@@ -130,7 +130,7 @@ The focus of this series was on the operating system level. Nowadays containers 
 Since I am only a consumer of already existing research I want to give out a big thanks for sharing the knowledge that I have consumed in the past years from:
 
 - [Brad Geesaman](https://twitter.com/bradgeesaman)
-- [Chris Le Roy](https://github.com/brompwnie)
+- [Chris Le Roy](https://twitter.com/brompwnie)
 - [Clint Gibler](https://twitter.com/clintgibler) 
 - [Duffie Cooley](https://twitter.com/mauilion)
 - [Ian Coldwater](https://twitter.com/IanColdwater)
