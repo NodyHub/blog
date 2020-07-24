@@ -49,9 +49,9 @@ These steps are a bit obvious, but explain what hove done wrong in the other cas
 
 ### Dropping Namespace Boundaries
 
-As we can take from the amazing artwork by Julia Evans ([@b0rk](https://twitter.com/b0rk)) and we already know that containerization is done by the use of Linux namespaces (details can be found in the man page `man namespaces`).
+As we can take from the amazing artwork by [Julia Evans](https://twitter.com/b0rk) and we already know that containerization is done by the use of Linux namespaces (details can be found in the man page `man namespaces`).
  
-![container namespaces](../../images/container-ns.jpeg " Container namespaces by Julia Evans ([@b0rk](https://twitter.com/b0rk))")
+![container namespaces](../../images/container-ns.jpeg " Container namespaces by [Julia Evans](https://twitter.com/b0rk)")
 
 To get details about which namespace is assigned to a process, we can take this information out of the `proc` filesystem (for each process `ls -l /proc/self/ns/`). The following namespaces are created for the start of a new container in the default configuration:
 - inter process communication (`ipc`)
@@ -121,7 +121,7 @@ The list of proposed techniques is not complete and is mainly based on insecure 
 - [CVE-2019-5736: Escape from Docker and Kubernetes containers to root on host](https://blog.dragonsector.pl/2019/02/cve-2019-5736-escape-from-docker-and.html)
 - [Docker Patched the Most Severe Copy Vulnerability to Date With CVE-2019-14271](https://unit42.paloaltonetworks.com/docker-patched-the-most-severe-copy-vulnerability-to-date-with-cve-2019-14271/)
 
-At the end of writing, I realized that [Jesse Hertz](mailto:jesse.hertz@nccgroup.trust) from [NCC Group](https://www.nccgroup.com/) has released [Abusing Privileged and Unprivileged Linux Containers]( https://www.nccgroup.com/globalassets/our-research/us/whitepapers/2016/june/container_whitepaper.pdf) which is an even more comprehensive collection to breakout of a container. A collection of tools that test for container breakouts have been collected by Clint Gibler ([@clintgibler](https://twitter.com/clintgibler)) in [Container Security – A collection of container security resources and tools, organized by category](https://tldrsec.com/blog/container-security/).
+At the end of writing, I realized that [Jesse Hertz](mailto:jesse.hertz@nccgroup.trust) from [NCC Group](https://www.nccgroup.com/) has released [Abusing Privileged and Unprivileged Linux Containers]( https://www.nccgroup.com/globalassets/our-research/us/whitepapers/2016/june/container_whitepaper.pdf) which is an even more comprehensive collection to breakout of a container. A collection of tools that test for container breakouts have been collected by [Clint Gibler](https://twitter.com/clintgibler) in [Container Security – A collection of container security resources and tools, organized by category](https://tldrsec.com/blog/container-security/).
 
 The focus of this series was on the operating system level. Nowadays containers are managed and orchestrated in a cluster environment by [Kubernetes](https://kubernetes.io/) or [Nomad](https://www.nomadproject.io/) to name at least two. Even the whole cloud stack is kept out of this series. These two areas will be addressed in another series.
 
@@ -129,15 +129,15 @@ The focus of this series was on the operating system level. Nowadays containers 
 
 Since I am only a consumer of already existing research I want to give out a big thanks for sharing the knowledge that I have consumed in the past years from:
 
-- Brad Geesaman – [@bradgeesaman](https://twitter.com/bradgeesaman)
-- Chris Le Roy – [@brompwnie](https://github.com/brompwnie)
-- Clint Gibler – [@clintgibler](https://twitter.com/clintgibler) 
-- Duffie Cooley – [@mauilion](https://twitter.com/mauilion)
-- Ian Coldwater – [@IanColdwater](https://twitter.com/IanColdwater)
-- Jessie Frazelle – [@jessfraz](https://twitter.com/jessfraz)
-- Mark Manning – [@antitree](https://twitter.com/antitree) 
-- Matthias Luft – [@uchi_mata](https://twitter.com/uchi_mata) 
-- Rory McCune – [@raesene](https://twitter.com/raesene)
+- [Brad Geesaman](https://twitter.com/bradgeesaman)
+- [Chris Le Roy](https://github.com/brompwnie)
+- [Clint Gibler](https://twitter.com/clintgibler) 
+- [Duffie Cooley](https://twitter.com/mauilion)
+- [Ian Coldwater](https://twitter.com/IanColdwater)
+- [Jessie Frazelle](https://twitter.com/jessfraz)
+- [Mark Manning](https://twitter.com/antitree) 
+- [Matthias Luft](https://twitter.com/uchi_mata) 
+- [Rory McCune](https://twitter.com/raesene)
 
 To name a few – you are awesome – please continue !!
 

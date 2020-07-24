@@ -8,6 +8,7 @@ tags:
 - security
 ---
 
+
 This post is part of a series and shows container breakout techniques that can be performed if a container is started privileged.
 
 <!--more-->
@@ -54,7 +55,7 @@ gid=0(root)
 groups=0(root)
 ```
 
-An alternative location to get details about the process capabilities can be taken from `/proc/self/status`, as following (thanks to Chis le Roy ([@brompwnie](https://twitter.com/brompwnie)) for one of the latest tweets):
+An alternative location to get details about the process capabilities can be taken from `/proc/self/status`, as following (thanks to [Chris le Roy](https://twitter.com/brompwnie) for one of the latest tweets):
 ```
 user@ca719daf3844:~$ grep Cap /proc/self/status
 CapInh:	0000003fffffffff
@@ -75,7 +76,7 @@ One of the dangerous kernel capabilities is `CAP_SYS_ADMIN`. If you are acting i
 
 In this escape, we use a **feature of cgroups** that allows the **execution** of code **in** the **root context**, after the last process in a cgroup is terminated. The feature is called **“notification on release”** and can only be set, because we have the capability `CAP_SYS_ADMIN`. 
 
-This technique got popular after Felix Wilhelm ([@_fel1x](https://twitter.com/_fel1x)) from [Google Project Zero]( https://googleprojectzero.blogspot.com/) put the escape in one tweet. [Trail of Bits](https://www.trailofbits.com/) has even investigated further this topic and all details can be read in their blogpost [Understanding Docker container escapes](https://blog.trailofbits.com/2019/07/19/understanding-docker-container-escapes/). 
+This technique got popular after [Felix Wilhelm](https://twitter.com/_fel1x) from [Google Project Zero]( https://googleprojectzero.blogspot.com/) put the escape in one tweet. [Trail of Bits](https://www.trailofbits.com/) has even investigated further this topic and all details can be read in their blogpost [Understanding Docker container escapes](https://blog.trailofbits.com/2019/07/19/understanding-docker-container-escapes/). 
 
 Here is just the quintessence of this approach:
 1. Create a new cgroup
@@ -114,7 +115,7 @@ To by honest, this **technique** was in my setup **a bit flaky** and I had some 
 
 #### `CAP_SYS_Module` – Load Kernel Module 
 
-What do you need to **load a kernel module on a Unix host**? Exact, the right capability: `CAP_SYS_MODULE`. In advance, you **must** be in the **same process namespace as** the **init** process, but **that is default** in case of plain Docker setups. You think now _how dare you_ this is something nobody would do!? That is exactly what happened to _Play-with-Docker_. I recommend reading the post [How I Hacked Play-with-Docker and Remotely Ran Code on the Host](https://www.cyberark.com/resources/threat-research-blog/how-i-hacked-play-with-docker-and-remotely-ran-code-on-the-host) by Nimrod Stoler ([@n1mr0d5](https://twitter.com/n1mr0d5)) to get all insights and the full picture.
+What do you need to **load a kernel module on a Unix host**? Exact, the right capability: `CAP_SYS_MODULE`. In advance, you **must** be in the **same process namespace as** the **init** process, but **that is default** in case of plain Docker setups. You think now _how dare you_ this is something nobody would do!? That is exactly what happened to _Play-with-Docker_. I recommend reading the post [How I Hacked Play-with-Docker and Remotely Ran Code on the Host](https://www.cyberark.com/resources/threat-research-blog/how-i-hacked-play-with-docker-and-remotely-ran-code-on-the-host) by [Nimrod Stoler](https://twitter.com/n1mr0d5) to get all insights and the full picture.
 
 The exploitation cannot be that easily weaponized, because we need a **kernel module** that **fits** the **kernel version**. To do so, we need to **compile** our own **kernel module** for the host system kerne. I thought initially that’s an easy one, just _copy&paste_ the code, compile and finished. Sounds easy? It is not that easy if you have an Ubuntu container on an Archlinux host – sigh.
 
@@ -229,7 +230,7 @@ root        10  0.0  0.0      0     0 ?        S    14:14   0:00  \_ [migration/
 
 As you can see, the script is executed and the output made available inside the container. 
 
-_Remark: Thanks to Matthias ([@uchi_mata](https://twitter.com/uchi_mata)) for the review and remembering me to add this breakout  technique!_
+_Remark: Thanks to [Matthias](https://twitter.com/uchi_mata) for the review and remembering me to add this breakout  technique!_
 
 ### Host Devices
 
