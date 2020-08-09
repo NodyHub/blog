@@ -16,12 +16,14 @@ Security consultant, analyst & researcher, freelancer, container fanboy, cloud e
 
 - [Docker & Kubernetes Resources and Images](https://github.com/NodyHub/docker-k8s-resources)
 - [Kubernetes Easter CTF](https://github.com/NodyHub/k8s-ctf-rocks)
+- [flathunter](https://github.com/flathunters/flathunter)
 
 ## Publications
 
 ### 2020
 
 - Training: [Docker, Kubernetes & Security in Enterprise Environments](../publication/2020-troopers/), TROOPERS20, Heidelberg, Germany
+- [Pentesting Cloud Sandboxes in the wild](../publication/2020-bsidesmuc/), BSides Munich, Munich/Virtual, Germany
 
 ### 2019
 
