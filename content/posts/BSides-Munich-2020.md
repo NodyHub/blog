@@ -1,16 +1,21 @@
 ---
 title: "Pentesting Cloud Sandboxes in the wild"
-date: 2020-08-22T17:07:28+02:00
-draft: true
+date: 2020-08-23T16:30:00+02:00
+draft: false
+tags:
+- Docker
+- Container
+- breakout
+- security
 ---
 
-Matthias and I talked about cloud sandboxes on virtual BSides Munich 2020. This blogpost summarizes the content of the talk.
+Matthias and I talked about cloud sandboxes on [virtual BSides Munich 2020](https://2020.bsidesmunich.org/). This blogpost summarizes the content of the talk.
 
 <!--more-->
 
-First, I will shout out to the BSides Munich Orga team to make the conference happen. Matthias and I were thankful to have the pleasure to contribute to the event. Furthermore, another thank you to the other speakers, which shared their research during this wired virtual-conference-times!
+First, shout out to the BSides Munich Orga team to make the conference happen. Matthias and I were thankful to have the pleasure to contribute to the event. Furthermore, another thank you to the other speakers, who shared their research during this weird virtual-conference-times!
 
-So, what about the content. We started our talk with a short re-cap about containers, based on the amazing talk “Fucking Containers – how do they work?” from Andreas Krebs which was presented on BSides Munich 2019 ([Ref](https://2019.bsidesmunich.org/talks/01-03_Fucking-Containers/), [Slides](https://raw.githubusercontent.com/BSidesMUC/BsidesMunich2019/master/files/01-03_Fucking-Containers.pdf)). 
+We started our talk with a short re-cap about containers, based on the amazing talk “Fucking Containers – how do they work?” from Andreas Krebs which was presented on BSides Munich 2019 ([Ref](https://2019.bsidesmunich.org/talks/01-03_Fucking-Containers/), [Slides](https://raw.githubusercontent.com/BSidesMUC/BsidesMunich2019/master/files/01-03_Fucking-Containers.pdf)). 
 
 ![A. Krebs F***ing Containers](../../images/akrebs-container.png)
  
@@ -54,8 +59,8 @@ Cheers,
 
 -- 
 
-- [Slides](https://gurke.io/bsidesmuc2020/)
-- [Recording]()
+- [Slides](../../publication/202008_bsides_muc.pdf) or [Google Slides](https://gurke.io/bsidesmuc2020)
+- [Recording](https://youtu.be/5urnOPb-BbY?t=948)
 - [Scan results on GitHub](https://github.com/NodyHub/bsidesmuc2020)
 - [BSides Munich](https://www.bsidesmunich.org/)
 

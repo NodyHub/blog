@@ -1,7 +1,7 @@
 ---
 title: "Pentesting Cloud Sandboxes in the wild"
 date: 2020-08-01T15:11:49+02:00
-draft: true
+draft: false
 tags:
 - Docker
 - Container
@@ -32,7 +32,7 @@ Building on last year’s explanation of container workings under the hood ([Fuc
 
 - [Slides](../202008_bsides_muc.pdf) or [Google Slides](https://gurke.io/bsidesmuc2020)
 - [Material](https://github.com/NodyHub/bsidesmuc2020)
-- [Recording]()
-- [Blogbost]()
+- [Recording](https://youtu.be/5urnOPb-BbY?t=948)
+- [Blogbost](../../posts/bsides-munich-2020/)
 
 
