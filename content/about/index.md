@@ -7,7 +7,7 @@ Security consultant, analyst & researcher, freelancer, container fanboy, cloud e
 
 ## Social
 
-- [E-Mail](mailto:mail@nody.cc)
+- [E-Mail](mailto:blog@nody.cc)
 - [Twitter](https://twitter.com/NodyTweet)
 - [GitHub](https://github.com/NodyHub)
 - [Docker Hub](https://hub.docker.com/u/nodyd)
