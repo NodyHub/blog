@@ -33,7 +33,7 @@ There are multiple ways to escape from a privileged container. Let us have a loo
 
 We will now explore two techniques that can be used to break out of the container. It is important to note here that it is only possible to abuse the [capabilities](https://man7.org/linux/man-pages/man7/capabilities.7.html), because there is no [seccop](https://man7.org/linux/man-pages/man2/seccomp.2.html) filter in place. This is the case if a container is started with `--privileged`. Docker containers are normally started with a seccomp filter enabled and give an additional layer of security.
 
-The available capabilities inside the container can be printed with the command `capsh --print`. The details about each capability can be taken from the man page (`man capavilities`). In case of a privileged container, all capabilities are available. An example output looks like following:
+The available capabilities inside the container can be printed with the command `capsh --print`. The details about each capability can be taken from the man page (`man capabilities`). In case of a privileged container, all capabilities are available. An example output looks like following:
 
 ```bash	
 ~# capsh --print
