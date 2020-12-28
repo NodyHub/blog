@@ -14,7 +14,7 @@ Implement a technical check that verifies implemented security measurements. In 
 
 ## Intro
 
-Welcome to me my first blog post. I decided to drop my first letters on one of my favoured research topics: [Kubernetes](https://kubernetes.io/). To be more specific, this blog post addresses network policy verification in Kubernetes. 
+Welcome to my first blog post. I decided to drop my first letters on one of my favoured research topics: [Kubernetes](https://kubernetes.io/). To be more specific, this blog post addresses network policy verification in Kubernetes. 
 
 It is an ongoing discussion as a security consultant to rate if something "is secure" and to motivate people to trust in the recommended solution that its secure. People always argue and discuss about feelings – something feels not secure // I feel not confi with the solution // are you sure that it is secure // whatever. So, you may now ask yourself how to handle such situations? To be honest, one must find a way to convince people that the introduced approach is "secure". As a technician I have trust in my solutions, but how to convince someone who has no trust?
 
