@@ -95,7 +95,7 @@ So, we are capable of archiving an arbitrary write to the filesystem, by travers
 
 The root-cause of this behavior is that symlinks are traversed during the extraction. You could ether implement your own checks or leverage the implementation from Google: [google/safearchive](https://github.com/google/safearchive) to ensure that symlinks from an archived are not traversed during extraction. Further details can be found in the blogpost [The Family of Safe Golang Libraries is Growing!](https://bughunters.google.com/blog/4925068200771584/the-family-of-safe-golang-libraries-is-growing). 
 
-## PoC tool: go-link-write
+## PoC tool: golinkwrite
 
 If you want to create a potential malicious archive, feel free to use [NodyHub/golinkwrite](https://github.com/NodyHub/golinkwrite) to craft your own tar archives with double entries: 
 
