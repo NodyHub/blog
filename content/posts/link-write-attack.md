@@ -46,7 +46,7 @@ Let's keep that behavior for now and mind and let us step to the next interestin
 
 ### File creation in Golang
 
-Files can be created in Golang with [`Create(name string) (*File, error)`](https://pkg.go.dev/os#Create). After creation, the contents can be written to that file and closed. The [documentation states following](https://pkg.go.dev/os#Create:~:text=Create%20creates%20or%20truncates%20the%20named%20file.%20If%20the%20file%20already%20exists%2C%20it%20is%20truncated.%20If%20the%20file%20does%20not%20exist%2C%20it%20is%20created%20with%20mode%200666%20(before%20umask):
+Files can be created in Golang with [`Create(name string) (*File, error)`](https://pkg.go.dev/os#Create). After creation, the contents can be written to that file and closed. The [documentation states following](https://pkg.go.dev/os#Create:~:text=Create%20creates%20or%20truncates%20the%20named%20file.%20If%20the%20file%20already%20exists%2C%20it%20is%20truncated.%20If%20the%20file%20does%20not%20exist%2C%20it%20is%20created%20with%20mode%200666%20(before%20umask).):
 
 > Create creates or truncates the named file. If the file already exists, it is truncated. If the file does not exist, it is created with mode 0666 (before umask).
 
