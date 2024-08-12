@@ -2,8 +2,7 @@ baseURL: "//blog.nody.cc/"
 # baseURL: "https://nodyhub.github.io/"
 languageCode: "en-us"
 title: "Nody´s blog"
-theme: "anubis"
-# theme: "ananke"
+theme: "archie"
 paginate: 5
 enableRobotsTXT: true
 
@@ -27,8 +26,16 @@ menu:
 
 
 params:
+  social:
+    - name: GitHub
+      icon: github
+      url: https://github.com/NodyHub
+    - name: Twitter
+      icon: twitter
+      url: https://twitter.com/NodyTweet/
   author: "Jan Harrie"
   description: "Blog with infosec content from Jan Harrie"
+  mode: dark
   images:
     - images/logo.png
   mainSections:
