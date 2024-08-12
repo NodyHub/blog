@@ -7,11 +7,11 @@ tags:
 - tar
 ---
 
-I have recently done some development work and deep-dived into archive extraction. I identified during that work interesting behaviors which I will explain in the following.
+I've recently been working on some exciting development projects, including a deep dive into archive extraction. During this work, I discovered some fascinating behaviours that I'm thrilled to share with you in the following sections.
 
 <!--more--> 
 
-_**TL;DR:**_ Tar archives can contain multiple entries with the same filename. Golang follows symlinks while calling [`os.Create(name string) (*File, error)`](https://pkg.go.dev/os#Create). The combination can lead to arbitrary writes during file extraction. 
+_**TL;DR:**_ Tar archives can contain multiple entries with the same filename. It is important to note that Golang follows symlinks while calling [`os.Create(name string) (*File, error)`](https://pkg.go.dev/os#Create). This combination can lead to arbitrary writes during file extraction.
 
 ## Observations
 
@@ -46,13 +46,13 @@ Let's keep that behavior for now in mind and let us step to the next interesting
 
 ### File creation in Golang
 
-Files can be created in Golang with [`os.Create(name string) (*File, error)`](https://pkg.go.dev/os#Create). Subsequently data can be written into the `File` and finally be closed. The [documentation states following](https://pkg.go.dev/os#Create:~:text=Create%20creates%20or%20truncates%20the%20named%20file.%20If%20the%20file%20already%20exists%2C%20it%20is%20truncated.%20If%20the%20file%20does%20not%20exist%2C%20it%20is%20created%20with%20mode%200666%20(before%20umask).):
+Files can be created in Golang with [os.Create(name string) (*File, error)](https://pkg.go.dev/os#Create). Data can then be written to the file and it can be closed. [The documentation says](https://pkg.go.dev/os#Create:~:text=Create%20creates%20or%20truncates%20the%20named%20file.%20If%20the%20file%20already%20exists%2C%20it%20is%20truncated.%20If%20the%20file%20does%20not%20exist%2C%20it%20is%20created%20with%20mode%200666%20(before%20umask).):
 
 > Create creates or truncates the named file. If the file already exists, it is truncated. If the file does not exist, it is created with mode 0666 (before umask).
 
-The interesting thing about that function is that the provided `name` can also be an already existing file (or even better: a symlink!). My first expectation was that the symlink will be replaced/truncated and replaced with the file content – similar to the `tar` behavior.
+The interesting thing about this function is that the given `name` can be an existing file (or even better: a symlink!). My first expectation was that the symlink would be replaced/truncated and replaced with the contents of the file - similar to `tar`cli behaviour.
 
-I implemented such behaviors in [Golang](https://go.dev/play/p/kunYCVn-_Zp) and in [Python](https://www.online-python.com/WAhSH75ia2) and it revealed that if we provide a symlink to the create function, the symlink gets traversed and the content is written to the destination! 
+I implemented such behaviour in [Golang](https://go.dev/play/p/kunYCVn-_Zp) and in [Python](https://www.online-python.com/WAhSH75ia2) and it turned out that if we pass a symlink to the create function, the symlink is traversed and the content is written to the target!
 
 Funny, right? 😃
 
@@ -112,6 +112,6 @@ lrw-r--r--  0 0      0           0  1 Jan  1970 rabbit_hole.txt -> /tmp/hi.txt
 -rw-r--r--  0 0      0          20  1 Jan  1970 rabbit_hole.txt
 ```
 
-## Remedition
+## Remediation
 
-The root-cause of this behavior is that symlinks are traversed during the extraction. You could either implement your own checks or leverage the implementation from Google: [google/safearchive](https://github.com/google/safearchive) to ensure that symlinks from an archived are not traversed during extraction. Further details can be found in the blogpost [The Family of Safe Golang Libraries is Growing!](https://bughunters.google.com/blog/4925068200771584/the-family-of-safe-golang-libraries-is-growing). 
+The root-cause of this behaviour is that symlinks are traversed during extraction. You can either implement your own checks or use Google's implementation: [google/safearchive](https://github.com/google/safearchive) to ensure that symlinks from an archive are not traversed during extraction. More details can be found in the blog post [The Family of Safe Golang Libraries is Growing!](https://bughunters.google.com/blog/4925068200771584/the-family-of-safe-golang-libraries-is-growing).
