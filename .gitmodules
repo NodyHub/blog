@@ -2,9 +2,3 @@
 	path = public
 	url = git@github.com:NodyHub/nodyhub.github.io.git
 	branch = main
-[submodule "themes/simplog"]
-	path = themes/simplog
-	url = https://github.com/michimani/simplog.git
-[submodule "themes/hugo-bearcub"]
-	path = themes/hugo-bearcub
-	url = https://github.com/clente/hugo-bearcub
