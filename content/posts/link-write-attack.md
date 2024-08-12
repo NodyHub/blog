@@ -1,5 +1,5 @@
 ---
-title: "Link-Write Attack — A sweet combination"
+title: "Link-Write Attack: A sweet combination"
 draft: false
 date: 2024-08-11T12:20:36+02:00
 tags:
