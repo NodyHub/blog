@@ -1,10 +1,12 @@
 ---
 title: "Sweet combination: Link-write Attack during extraction"
-draft: true
+draft: false
 date: 2024-08-09T08:20:36+02:00
 tags:
 - attack
 - tar
+- golang
+- python
 ---
 
 I've recently been working on some exciting development projects, including a deep dive into archive extraction. During this work, I discovered some fascinating behaviours that I'm thrilled to share with you in the following sections.
