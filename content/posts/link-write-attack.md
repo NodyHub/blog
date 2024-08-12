@@ -1,7 +1,7 @@
 ---
 title: "Sweet combination: Link-write Attack during extraction"
 draft: false
-date: 2024-08-09T08:20:35+02:00
+date: 2024-08-09T08:20:36+02:00
 tags:
 - attack
 - tar
@@ -114,4 +114,4 @@ lrw-r--r--  0 0      0           0  1 Jan  1970 rabbit_hole.txt -> /tmp/hi.txt
 
 ## Remedition
 
-The root-cause of this behavior is that symlinks are traversed during the extraction. You could ether implement your own checks or leverage the implementation from Google: [google/safearchive](https://github.com/google/safearchive) to ensure that symlinks from an archived are not traversed during extraction. Further details can be found in the blogpost [The Family of Safe Golang Libraries is Growing!](https://bughunters.google.com/blog/4925068200771584/the-family-of-safe-golang-libraries-is-growing). 
+The root-cause of this behavior is that symlinks are traversed during the extraction. You could either implement your own checks or leverage the implementation from Google: [google/safearchive](https://github.com/google/safearchive) to ensure that symlinks from an archived are not traversed during extraction. Further details can be found in the blogpost [The Family of Safe Golang Libraries is Growing!](https://bughunters.google.com/blog/4925068200771584/the-family-of-safe-golang-libraries-is-growing). 
