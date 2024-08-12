@@ -1,5 +1,4 @@
-baseURL: "//blog.nody.cc/"
-# baseURL: "https://nodyhub.github.io/"
+baseURL: "https://blog.nody.cc/"
 languageCode: "en-us"
 title: "Nody´s blog"
 theme: "paper-mod"

@@ -1,6 +1,6 @@
 ---
 title: "Sweet combination: Link-write Attack during extraction"
-draft: true
+draft: false
 date: 2024-08-09T08:20:35+02:00
 tags:
 - attack
