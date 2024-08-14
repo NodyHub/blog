@@ -35,6 +35,7 @@ params:
   author: "Jan Harrie"
   description: "Blog with infosec content from Jan Harrie"
   mode: dark
+  googleAnalytics: "G-GJ9RT90BBS"
   images:
     - images/logo.png
   mainSections:
