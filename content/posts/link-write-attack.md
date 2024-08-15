@@ -93,7 +93,7 @@ Hello Alice, welcome to the wonderland!
 
 So, we are capable of archiving an arbitrary write to the filesystem, by traversing the link during the file creation process.
 
-
+I was as well capable of exploiting this behaviour in hashicorp/nomad, which got remediated in [nomad#23738](https://github.com/hashicorp/nomad/pull/23738) and disclosed in [HCSEC-2024-17](https://discuss.hashicorp.com/t/hcsec-2024-17-nomad-vulnerable-to-allocation-directory-escape-on-non-existing-file-paths-through-archive-unpacking/69293) ([CVE-2024-7625](https://nvd.nist.gov/vuln/detail/CVE-2024-7625))
 
 ## PoC tool: golinkwrite
 
