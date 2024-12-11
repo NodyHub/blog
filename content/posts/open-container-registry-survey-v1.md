@@ -1,7 +1,7 @@
 ---
-title: "Survey: Container Registries – 1. Edition"
-draft: true
-date: 2024-12-11T18:20:35+02:00
+title: "Open Container Registry Survey v1"
+draft: false
+date: 2024-12-11T17:10:35+02:00
 tags:
 - docker
 - registry
