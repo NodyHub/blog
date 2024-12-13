@@ -1,5 +1,5 @@
 ---
-title: "Open Container Registry Survey v1"
+title: "Open Container Registry Survey"
 draft: false
 date: 2024-12-11T17:10:35+02:00
 tags:
@@ -8,13 +8,13 @@ tags:
 - secrets
 ---
 
-I got the chance to get access to the scan results from [Chrisopher Dreher a.k.a Schniggie](https://twitter.com/schniggie) and his research on container registries. I took his results as an input for my research, downloaded all images, extracted and verified secrets and performed some statistics on the data.  
+I got the chance to get access to a list of open container registries. I took this list as an input and downloaded all images, extracted and verified found secrets and performed some statistics on the data.  This article describes my approach and summarizes the results.
 
 <!--more--> 
 
 ## Introduction
 
-Have you ever wondered what people upload to self-hosted Docker registries? If so, you're not alone – I’ve often been curious about this myself! Fortunately, [Schniggie conducted a scan of public IP ranges from cloud providers some time ago and uncovered a number of open Docker registries](https://dreher.in/blog/unprotected-container-registries). With access to Schniggie's findings, I had the opportunity to perform my own analysis.
+Have you ever wondered what people upload to self-hosted Docker registries? If so, you're not alone – I’ve often been curious about this myself! Fortunately, [Christopher Dreher, aka Schniggie, conducted a scan of public IP ranges from cloud providers some time ago and uncovered a number of open Docker registries](https://dreher.in/blog/unprotected-container-registries). With access to Schniggie's findings, I had the opportunity to perform my own analysis.
 
 Using the provided list, I checked which of the identified hosts were still accessible without requiring credentials. To my surprise, 4,090 servers were still open, allowing me to list the images stored in their registries. Rather than adding new images, I chose to download the existing image layers and scan them for valid secrets.
 
